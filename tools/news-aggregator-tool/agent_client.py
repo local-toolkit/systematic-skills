@@ -11,6 +11,9 @@ TOOL_SCRIPT = os.path.join(script_dir, "main.py")
 TEMPLATES_PATH = os.path.join(script_dir, "templates.md")
 REPORTS_DIR = os.path.join(script_dir, "reports")
 
+# Ensure directories exist
+os.makedirs(REPORTS_DIR, exist_ok=True)
+
 def load_skill_context() -> str:
     try:
         with open(SKILL_PATH, 'r') as f:
