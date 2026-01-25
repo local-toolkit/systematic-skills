@@ -1,0 +1,65 @@
+# Environment & Secrets
+.env
+.env*.local
+secrets.json
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+.pytest_cache/
+*.log
+.ipynb_checkpoints/
+.python-version
+uv.lock
+
+# Node.js
+node_modules/
+.next/
+dist/
+build/
+out/
+.vercel
+.turbo
+
+# Databases
+*.db
+*.db-shm
+*.db-wal
+*.sqlite3
+
+# OS Related
+.DS_Store
+Thumbs.db
+
+# Project Specific
+news-aggregator-tool/reports/
+trendradar-tool/reports/
+
+# Paper Audit
+paper_audit/
+
+
+cloud-orchestrator-tool/__pycache__/
+
+# Binaries and compiled files
+**/bin/
+**/obj/
+**/*.exe
+**/*.dll
+**/*.so
+**/*.dylib
+
+# Large Media/Archives
+**/*.zip
+**/*.tar.gz
+**/*.mp4
+**/*.iso
+
+# Temp files
+**/*.tmp
+large_files*.txt
+*.txt

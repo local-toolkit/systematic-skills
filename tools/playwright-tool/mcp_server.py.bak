@@ -1,0 +1,883 @@
+#!/usr/bin/env python3
+"""
+Playwright MCP Server
+MCP server for Playwright browser automation and web testing.
+"""
+
+import asyncio
+import json
+import base64
+import traceback
+from typing import Any, Dict, List, Optional
+from pathlib import Path
+from urllib.parse import urlparse
+
+# MCP imports
+from mcp.server.models import InitializationOptions
+from mcp.server import NotificationOptions, Server
+from mcp.server.stdio import stdio_server
+from mcp.types import (
+    Tool,
+    TextContent,
+    ImageContent,
+    EmbeddedResource,
+)
+from playwright.async_api import async_playwright
+from playwright.sync_api import sync_playwright
+
+
+# Configuration
+PLAYWRIGHT_BROWSERS = ["chromium", "firefox", "webkit"]
+DEFAULT_TIMEOUT = 30000
+DEFAULT_HEADLESS = True
+
+class PlaywrightMCPServer:
+    """MCP Server for Playwright browser automation."""
+    
+    def __init__(self):
+        self.server = Server("playwright-mcp-server", "1.0.0")
+        self.playwright = None
+        self.browser = None
+        self.context = None
+        self.page = None
+        self.current_url = None
+        
+        # Register tools
+        self._register_tools()
+        
+    def _register_tools(self):
+        """Register all available MCP tools."""
+        
+        # Browser lifecycle
+        self.server.add_tool(
+            Tool(
+                name="browser_launch",
+                description="Launch a Playwright browser instance",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "browser_type": {
+                            "type": "string",
+                            "description": "Browser type to launch",
+                            "enum": PLAYWRIGHT_BROWSERS,
+                            "default": "chromium"
+                        },
+                        "headless": {
+                            "type": "boolean",
+                            "description": "Run in headless mode",
+                            "default": True
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": DEFAULT_TIMEOUT
+                        }
+                    },
+                    "required": ["browser_type"]
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="browser_navigate",
+                description="Navigate to a URL in the browser",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "URL to navigate to"
+                        },
+                        "wait_until": {
+                            "type": "string",
+                            "description": "Wait condition: 'load', 'networkidle', 'domcontentloaded'",
+                            "default": "load",
+                            "enum": ["load", "networkidle", "domcontentloaded", "commit"]
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": DEFAULT_TIMEOUT
+                        }
+                    },
+                    "required": ["url"]
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_screenshot",
+                description="Take a screenshot of the current page",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "string",
+                            "description": "Path to save screenshot (optional)"
+                        },
+                        "full_page": {
+                            "type": "boolean",
+                            "description": "Capture full page screenshot",
+                            "default": False
+                        },
+                        "selector": {
+                            "type": "string",
+                            "description": "CSS selector to capture specific element (optional)"
+                        }
+                    }
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_get_text",
+                description="Extract text content from the page",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "selector": {
+                            "type": "string",
+                            "description": "CSS selector to extract text from (optional)"
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": 5000
+                        }
+                    }
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_get_html",
+                description="Extract HTML content from the page",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "selector": {
+                            "type": "string",
+                            "description": "CSS selector to extract HTML from (optional)"
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": 5000
+                        }
+                    }
+                }
+            }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_click",
+                description="Click on an element using CSS selector",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "selector": {
+                            "type": "string",
+                            "description": "CSS selector for element to click"
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": 5000
+                        }
+                    },
+                    "required": ["selector"]
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_fill",
+                description="Fill form fields with data",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "selector": {
+                            "type": "string",
+                            "description": "CSS selector for form element"
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "Value to fill"
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": 5000
+                        }
+                    },
+                    "required": ["selector", "value"]
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_type_text",
+                description="Type text into an input field",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "selector": {
+                            "type": "string",
+                            "description": "CSS selector for input element"
+                        },
+                        "text": {
+                            "type": "string",
+                            "description": "Text to type"
+                        },
+                        "delay": {
+                            "type": "integer",
+                            "description": "Delay between keystrokes in ms",
+                            "default": 50
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": 5000
+                        }
+                    },
+                    "required": ["selector", "text"]
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_evaluate",
+                description="Execute JavaScript in the page context",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "script": {
+                            "type": "string",
+                            "description": "JavaScript code to execute"
+                        }
+                    }
+                },
+                    "required": ["script"]
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_wait_for_selector",
+                description="Wait for an element to appear in the page",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "selector": {
+                            "type": "string",
+                            "description": "CSS selector to wait for"
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": 30000
+                        },
+                        "state": {
+                            "type": "string",
+                            "description": "Element state: 'attached', 'visible', 'hidden'",
+                            "default": "visible"
+                        }
+                    },
+                    "required": ["selector"]
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_get_links",
+                description="Get all links from the current page",
+                inputSchema={
+                    "type": "object",
+                    "properties": {}
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_get_info",
+                description="Get information about the current page (title, URL, etc.)",
+                inputSchema={
+                    "type": "object",
+                    "properties": {}
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="browser_close",
+                description="Close the browser instance",
+                inputSchema={
+                    "type": "object",
+                    "properties": {}
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="set_viewport",
+                description="Change browser viewport size",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "integer",
+                            "description": "Viewport width in pixels",
+                            "default": 1280
+                        },
+                        "height": {
+                            "type": "integer",
+                            "description": "Viewport height in pixels",
+                            "default": 720
+                        }
+                    }
+                }
+            }
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="execute_script",
+                description="Execute custom JavaScript code in browser context",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "string",
+                            "description": "JavaScript code to execute"
+                        }
+                    },
+                    "required": ["code"]
+                }
+            )
+        )
+        
+        self.server.add_tool(
+            Tool(
+                name="page_scrape",
+                description="Scrape structured data from page using JSON schema",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "schema": {
+                            "type": "string",
+                            "description": "JSON schema defining data to extract"
+                        },
+                        "timeout": {
+                            "type": "integer",
+                            "description": "Timeout in milliseconds",
+                            "default": 10000
+                        }
+                    },
+                    "required": ["schema"]
+                }
+            )
+        )
+    
+    async def _ensure_browser(self, browser_type: str = "chromium", headless: bool = True, timeout: int = DEFAULT_TIMEOUT) -> None:
+        """Ensure browser is launched."""
+        if self.playwright is None or self.playwright._is_closed:
+            playwright = await async_playwright()
+            launch_options = {
+                "headless": headless,
+                "timeout": timeout,
+            }
+            
+            try:
+                if browser_type == "chromium":
+                    self.browser = await playwright.chromium.launch(**launch_options)
+                elif browser_type == "firefox":
+                    self.browser = await playwright.firefox.launch(**launch_options)
+                elif browser_type == "webkit":
+                    self.browser = await playwright.webkit.launch(**launch_options)
+                else:
+                    raise ValueError(f"Unsupported browser type: {browser_type}")
+                
+                self.playwright = playwright
+                
+            except Exception as e:
+                raise RuntimeError(f"Failed to launch {browser_type}: {str(e)}")
+        
+        async def _ensure_context(self) -> None:
+        """Ensure a browser context exists."""
+        if self.context is None:
+            if self.browser is None:
+                await self._ensure_browser()
+            
+            try:
+                self.context = await self.browser.new_context(
+                    viewport={"width": 1280, "height": 720},
+                    user_agent="Mozilla/5.0 (Playwright MCP Server)"
+                )
+            except Exception as e:
+                raise RuntimeError(f"Failed to create context: {str(e)}")
+        
+        async def _ensure_page(self, url: Optional[str] = None) -> None:
+        """Ensure a page exists."""
+        await self._ensure_context()
+        
+        if self.page is None:
+            try:
+                self.page = await self.context.new_page()
+                if url:
+                    await self.page.goto(url, timeout=DEFAULT_TIMEOUT)
+                    self.current_url = url
+            except Exception as e:
+                raise RuntimeError(f"Failed to create page: {str(e)}")
+    
+    async def browser_launch(self, browser_type: str, headless: bool, timeout: int) -> str:
+        """Launch a Playwright browser instance."""
+        try:
+            await self._ensure_browser(browser_type, headless, timeout)
+            
+            # Return success info
+            return json.dumps({
+                "status": "success",
+                "message": f"Browser launched: {browser_type} (headless={headless})",
+                "available_browsers": PLAYWRIGHT_BROWSERS
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def browser_navigate(self, url: str, wait_until: str = "load", timeout: int = DEFAULT_TIMEOUT) -> str:
+        """Navigate to a URL in the browser."""
+        try:
+            await self._ensure_page(url)
+            
+            wait_options = {}
+            if wait_until != "load":
+                if wait_until == "networkidle":
+                    wait_options["waitUntil"] = "networkidle"
+                elif wait_until == "domcontentloaded":
+                    wait_options["waitUntil"] = "domcontentloaded"
+                elif wait_until == "commit":
+                    # Wait for network to be mostly idle
+                    wait_options["waitUntil"] = "networkidle"
+                    wait_options["timeout"] = 1000  # Additional short timeout
+            
+            await self.page.wait_for_load_state("load", timeout=timeout)
+            
+            return json.dumps({
+                "status": "success",
+                "message": f"Navigated to {url}",
+                "current_url": self.page.url,
+                "title": await self.page.title()
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_screenshot(self, path: Optional[str] = None, full_page: bool = False, selector: Optional[str] = None) -> str:
+        """Take a screenshot of the current page."""
+        try:
+            await self._ensure_page()
+            
+            screenshot_options = {
+                "type": "png",
+                "full_page": full_page
+            }
+            
+            if path:
+                screenshot_options["path"] = path
+            
+            if selector:
+                element = self.page.locator(selector)
+                await element.screenshot(**screenshot_options)
+            else:
+                await self.page.screenshot(**screenshot_options)
+            
+            # Return image as base64 for MCP
+            screenshot_path = path or "screenshot.png"
+            with open(screenshot_path, "wb") if path else None:
+                if path:
+                    await self.page.screenshot(path=path)
+                    result_path = path
+                else:
+                    # Use playwright's built-in screenshot to bytes
+                    screenshot_bytes = await self.page.screenshot()
+                    result_path = "screenshot.png"
+                    with open(result_path, "wb") as f:
+                        f.write(screenshot_bytes)
+                    result_path = result_path
+            
+            with open(result_path, "rb") as f:
+                image_data = base64.b64encode(f.read()).decode()
+            
+            return json.dumps({
+                "status": "success",
+                "message": f"Screenshot saved to {result_path}",
+                "path": result_path,
+                "image_data": image_data if not path else None
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_get_text(self, selector: Optional[str] = None, timeout: int = 5000) -> str:
+        """Extract text content from the page."""
+        try:
+            await self._ensure_page()
+            
+            if selector:
+                element = self.page.locator(selector)
+                text = await element.text_content(timeout=timeout)
+            else:
+                text = await self.page.inner_text(timeout=timeout)
+            
+            return json.dumps({
+                "status": "success",
+                "text": text
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_get_html(self, selector: Optional[str] = None, timeout: int = 5000) -> str:
+        """Extract HTML content from the page."""
+        try:
+            await self._ensure_page()
+            
+            if selector:
+                element = self.page.locator(selector)
+                html = await element.inner_html(timeout=timeout)
+            else:
+                html = await self.page.content(timeout=timeout)
+            
+            return json.dumps({
+                "status": "success",
+                "html": html
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_click(self, selector: str, timeout: int = 5000) -> str:
+        """Click on an element using CSS selector."""
+        try:
+            await self._ensure_page()
+            
+            element = self.page.locator(selector)
+            await element.click(timeout=timeout)
+            
+            return json.dumps({
+                "status": "success",
+                "message": f"Clicked element: {selector}"
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_fill(self, selector: str, value: str, timeout: int = 5000) -> str:
+        """Fill form fields with data."""
+        try:
+            await self._ensure_page()
+            
+            element = self.page.locator(selector)
+            await element.fill(value, timeout=timeout)
+            
+            return json.dumps({
+                "status": "success",
+                "message": f"Filled {selector} with value"
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_type_text(self, selector: str, text: str, delay: int = 50, timeout: int = 5000) -> str:
+        """Type text into an input field."""
+        try:
+            await self._ensure_page()
+            
+            element = self.page.locator(selector)
+            await element.type(text, delay=delay, timeout=timeout)
+            
+            return json.dumps({
+                "status": "success",
+                "message": f"Typed text into {selector}"
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_evaluate(self, script: str) -> str:
+        """Execute JavaScript in the page context."""
+        try:
+            await self._ensure_page()
+            
+            result = await self.page.evaluate(script)
+            
+            return json.dumps({
+                "status": "success",
+                "result": result
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_wait_for_selector(self, selector: str, timeout: int = 30000, state: str = "visible") -> str:
+        """Wait for an element to appear in the page."""
+        try:
+            await self._ensure_page()
+            
+            element = self.page.locator(selector)
+            
+            if state == "attached":
+                await element.wait_for(state="attached", timeout=timeout)
+            elif state == "visible":
+                await element.wait_for(state="visible", timeout=timeout)
+            elif state == "hidden":
+                await element.wait_for(state="hidden", timeout=timeout)
+            
+            return json.dumps({
+                "status": "success",
+                "message": f"Element {state}: {selector}"
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_get_links(self) -> str:
+        """Get all links from the current page."""
+        try:
+            await self._ensure_page()
+            
+            links = await self.page.query_selector_all("a[href]")
+            link_data = []
+            
+            for link in links:
+                href = await link.get_attribute("href")
+                text = await link.text_content()
+                if href:
+                    link_data.append({
+                        "url": href,
+                        "text": text
+                    })
+            
+            return json.dumps({
+                "status": "success",
+                "count": len(link_data),
+                "links": link_data
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_get_info(self) -> str:
+        """Get information about the current page."""
+        try:
+            await self._ensure_page()
+            
+            info = {
+                "title": await self.page.title(),
+                "url": self.page.url,
+                "current_url": self.page.url
+            }
+            
+            return json.dumps({
+                "status": "success",
+                "info": info
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def browser_close(self) -> str:
+        """Close the browser instance."""
+        try:
+            if self.context:
+                await self.context.close()
+                self.context = None
+            
+            if self.browser:
+                await self.browser.close()
+                self.browser = None
+                self.playwright = None
+                self.page = None
+                self.current_url = None
+            
+            return json.dumps({
+                "status": "success",
+                "message": "Browser closed"
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def set_viewport(self, width: int, height: int) -> str:
+        """Change browser viewport size."""
+        try:
+            await self._ensure_context()
+            await self.page.set_viewport_size({"width": width, "height": height})
+            
+            return json.dumps({
+                "status": "success",
+                "message": f"Viewport set to {width}x{height}",
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def execute_script(self, code: str) -> str:
+        """Execute custom JavaScript code in browser context."""
+        try:
+            await self._ensure_page()
+            result = await self.page.evaluate(code)
+            
+            return json.dumps({
+                "status": "success",
+                "result": result
+            }, indent=2)
+            
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def page_scrape(self, schema: str, timeout: int = 10000) -> str:
+        """Scrape structured data from page using JSON schema."""
+        try:
+            await self._ensure_page()
+            
+            # Parse JSON schema
+            schema_dict = json.loads(schema)
+            result = {}
+            
+            for field_name, selector in schema_dict.items():
+                if selector:
+                    try:
+                        element = self.page.locator(selector)
+                        if field_name.endswith("_text"):
+                            result[field_name] = await element.text_content(timeout=timeout)
+                        elif field_name.endswith("_html"):
+                            result[field_name] = await element.inner_html(timeout=timeout)
+                        elif field_name.endswith("_href"):
+                            result[field_name] = await element.get_attribute("href", timeout=timeout)
+                        else:
+                            # Get generic attribute
+                            result[field_name] = await element.get_attribute(field_name, timeout=timeout)
+                    except:
+                        result[field_name] = None
+            
+            return json.dumps({
+                "status": "success",
+                "data": result
+            }, indent=2)
+            
+        except json.JSONDecodeError as e:
+            return json.dumps({
+                "status": "error",
+                "message": f"Invalid JSON schema: {str(e)}"
+            }, indent=2)
+        except Exception as e:
+            return json.dumps({
+                "status": "error",
+                "message": str(e)
+            }, indent=2)
+    
+    async def cleanup(self):
+        """Clean up resources."""
+        try:
+            await self.browser_close()
+        except:
+            pass
+
+
+async def main():
+    """Main entry point for the MCP server."""
+    server = PlaywrightMCPServer()
+    
+    async with stdio_server() as (read_stream, write_stream):
+        # Initialize
+        await write_stream(
+            NotificationOptions(
+                level="info",
+                title="Playwright MCP Server",
+                message="Starting Playwright MCP server v1.0.0"
+            )
+        )
+        
+        # Run server
+        await server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="playwright-mcp-server",
+                server_version="1.0.0",
+                capabilities={
+                    "tools": {},
+                    "resources": {}
+                }
+            )
+        )
+        
+        # Cleanup on shutdown
+        await server.cleanup()
+
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\nPlaywright MCP Server stopped.")
