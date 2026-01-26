@@ -42,9 +42,9 @@ def detect_tool_type(tool_dir: Path) -> Dict[str, bool]:
     mcp_server_py = tool_dir / "mcp_server.py"
     detection["has_mcp_server"] = mcp_server_py.exists()
 
-    # Check for external MCP (TrendRadar pattern)
-    trendradar_mcp = tool_dir / "trendradar-mcp"
-    detection["has_external_mcp"] = trendradar_mcp.is_symlink() or trendradar_mcp.is_dir()
+    # Check for external MCP pattern
+    external_mcp = list(tool_dir.glob("*-mcp"))
+    detection["has_external_mcp"] = any(p.is_symlink() or p.is_dir() for p in external_mcp)
 
     # Determine tool type
     if not detection["has_agent_client"]:

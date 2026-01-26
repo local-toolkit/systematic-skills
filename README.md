@@ -19,22 +19,23 @@
 
 ## 🌟 Key Features
 
-*   **📺 Media Extraction**: Industrial-strength video/audio downloader with format controls (`yt-dlp-tool`).
-*   **📰 News Aggregation**: Scrape and summarize tech news from HackerNews, GitHub, and more (`news-aggregator-tool`).
-*   **🖼️ Image Processing**: Convert, resize, watermark, and split images with a single command (`imgconv-tool`).
-*   **📑 Academic Workflow**: Automate paper downloading and auditing (`paper-audit-tool`, `pdf-downloader-tool`).
-*   **🕷️ Browser Automation**: Control a headless browser for scraping and testing (`playwright-tool`).
-*   **📈 Trend Analysis**: Track and analyze trends with AI-powered insights (`trendradar-tool`).
+- **📺 Media Extraction**: Industrial-strength video/audio downloader with format controls (`yt-dlp-tool`).
+- **📰 News Aggregation**: Scrape and summarize tech news from HackerNews, GitHub, and more (`news-aggregator-tool`).
+- **🖼️ Image Processing**: Convert, resize, watermark, and split images with a single command (`imgconv-tool`).
+- **📑 Academic Workflow**: Automate paper downloading and auditing (`paper-audit-tool`, `pdf-downloader-tool`).
+- **🕷️ Browser Automation**: Control a headless browser for scraping and testing (`playwright-tool`).
 
 ## 🛠️ Installation
 
 1.  **Clone the repository:**
+
     ```bash
     git clone https://github.com/yourusername/antigravity-tools.git
     cd antigravity-tools
     ```
 
 2.  **Set up the environment:**
+
     ```bash
     # Create and activate a virtual environment (recommended)
     python -m venv venv
@@ -43,10 +44,11 @@
 
 3.  **Install dependencies:**
     Each tool has its own dependencies to keep things lightweight. You can install what you need, or everything:
+
     ```bash
     # Install core dependencies
     pip install -r requirements.txt
-    
+
     # Or navigate to specific tools to install their requirements
     pip install -r tools/yt-dlp-tool/requirements.txt
     ```
@@ -62,31 +64,35 @@
 The magic happens via the unified agent entry point. You don't need to remember specific script names.
 
 **Basic Syntax:**
+
 ```bash
 python core/agent.py "<your natural language request>"
 ```
 
 **Examples:**
 
-*   **Download a video:**
-    ```bash
-    python core/agent.py "Download the audio from this video: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    ```
+- **Download a video:**
 
-*   **Get the latest AI news:**
-    ```bash
-    python core/agent.py "Get me the top 10 AI news from HackerNews"
-    ```
+  ```bash
+  python core/agent.py "Download the audio from this video: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  ```
 
-*   **Convert an image:**
-    ```bash
-    python core/agent.py "Convert my photo.png to jpg and resize it to 800px width"
-    ```
+- **Get the latest AI news:**
 
-*   **Download a research paper:**
-    ```bash
-    python core/agent.py "Download this paper https://arxiv.org/pdf/1706.03762.pdf"
-    ```
+  ```bash
+  python core/agent.py "Get me the top 10 AI news from HackerNews"
+  ```
+
+- **Convert an image:**
+
+  ```bash
+  python core/agent.py "Convert my photo.png to jpg and resize it to 800px width"
+  ```
+
+- **Download a research paper:**
+  ```bash
+  python core/agent.py "Download this paper https://arxiv.org/pdf/1706.03762.pdf"
+  ```
 
 ## 🤝 Contributing
 
@@ -100,4 +106,5 @@ We love contributions! Whether you want to add a new "Skill" or improve an exist
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 # systematic-skills

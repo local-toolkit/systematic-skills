@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
+# -_- coding: utf-8 -_-
+
 """
 Tool Development Guide
 
@@ -44,12 +46,14 @@ Workspace/
 **Examples:** yt-dlp-tool, news-aggregator-tool, imgconv-tool
 
 **Characteristics:**
+
 - Have `main.py` as core implementation
 - Use `subprocess.run()` to execute
 - No MCP server needed
 - Simple command-line interface
 
 **Requirements:**
+
 ```
 {tool-name}-tool/
 ├── main.py              # Core implementation
@@ -60,6 +64,7 @@ Workspace/
 ```
 
 **agent_client.py Pattern:**
+
 ```python
 # Use template from .agent/templates/agent_client_template.md
 INTEGRATION_TYPE = "subprocess"
@@ -77,15 +82,17 @@ def run_tool(**kwargs):
 
 **Best for:** Tools needing deep AI integration via MCP protocol
 
-**Examples:** playwright-tool, trendradar-tool (external)
+**Examples:** playwright-tool
 
 **Characteristics:**
+
 - Have `mcp_server.py` implementing MCP protocol
 - Use `mcp_client.py` for integration
 - Provide 10+ tools with standardized schema
 - Async execution
 
 **Requirements:**
+
 ```
 {tool-name}-tool/
 ├── mcp_server.py        # MCP server implementation
@@ -96,6 +103,7 @@ def run_tool(**kwargs):
 ```
 
 **agent_client.py Pattern:**
+
 ```python
 # Use template from .agent/templates/agent_client_template.md
 INTEGRATION_TYPE = "mcp"
@@ -114,6 +122,7 @@ async def run_tool(action: str, **kwargs):
 ```
 
 **External MCP Pattern (like TrendRadar):**
+
 ```python
 INTEGRATION_TYPE = "mcp"
 MCP_SERVER_PATH = "~/TrendRadar/mcp_server/server.py"  # External path
@@ -129,18 +138,21 @@ IS_EXTERNAL_MCP = True
 **Examples:** literature-search-expert, mcp-builder-expert, tool-development-expert
 
 **Characteristics:**
+
 - No `main.py` or `mcp_server.py`
 - Display `SKILL.md` content
 - Provide guidance and instructions
 - Type: "meta" in skill registry
 
 **Requirements:**
+
 ```
 .agent/skills/{skill-name}-expert/
 └── SKILL.md           # Knowledge base only
 ```
 
 **Unified agent.py handles these:**
+
 - When queried, displays SKILL.md content
 - User gets guidance, no execution
 
@@ -154,11 +166,11 @@ IS_EXTERNAL_MCP = True
 {
   "name": "{skill-name}-expert",
   "function_name": "skill-name",
-  "type": "execution",           // "execution" | "meta"
-  "integration": "subprocess",   // "subprocess" | "mcp" | "none"
-  "has_main": true,              // true for execution tools
-  "has_mcp_server": false,       // true for MCP server tools
-  "is_external": false,           // true for external MCP (TrendRadar)
+  "type": "execution", // "execution" | "meta"
+  "integration": "subprocess", // "subprocess" | "mcp" | "none"
+  "has_main": true, // true for execution tools
+  "has_mcp_server": false, // true for MCP server tools
+  "is_external": false, // true for external MCP (TrendRadar)
   "tool_dir": "{tool-name}-tool",
   "description": "...",
   "status": "active",
@@ -169,20 +181,20 @@ IS_EXTERNAL_MCP = True
 
 ### Field Descriptions
 
-| Field | Required | Values | Description |
-|--------|----------|---------|-------------|
-| `name` | ✅ | `{skill-name}-expert` | Skill name (expert suffix) |
-| `function_name` | ✅ | `{skill-name}` | Short function name |
-| `type` | ✅ | `execution` | `meta` | Skill type |
-| `integration` | ✅ | `subprocess` | `mcp` | `none` | Integration method |
-| `has_main` | ✅ | `true` | `false` | Has main.py |
-| `has_mcp_server` | ❌ | `true` | `false` | Has mcp_server.py |
-| `is_external` | ❌ | `true` | `false` | External MCP server |
-| `tool_dir` | ✅ | `{tool-name}-tool` | Tool directory name |
-| `description` | ✅ | string | Tool description |
-| `status` | ✅ | `active` | `inactive` | Skill status |
-| `path` | ✅ | string | Absolute path to skill |
-| `skill_md` | ✅ | string | Absolute path to SKILL.md |
+| Field            | Required | Values                | Description                |
+| ---------------- | -------- | --------------------- | -------------------------- | ------------------- | ------------------ |
+| `name`           | ✅       | `{skill-name}-expert` | Skill name (expert suffix) |
+| `function_name`  | ✅       | `{skill-name}`        | Short function name        |
+| `type`           | ✅       | `execution`           | `meta`                     | Skill type          |
+| `integration`    | ✅       | `subprocess`          | `mcp`                      | `none`              | Integration method |
+| `has_main`       | ✅       | `true`                | `false`                    | Has main.py         |
+| `has_mcp_server` | ❌       | `true`                | `false`                    | Has mcp_server.py   |
+| `is_external`    | ❌       | `true`                | `false`                    | External MCP server |
+| `tool_dir`       | ✅       | `{tool-name}-tool`    | Tool directory name        |
+| `description`    | ✅       | string                | Tool description           |
+| `status`         | ✅       | `active`              | `inactive`                 | Skill status        |
+| `path`           | ✅       | string                | Absolute path to skill     |
+| `skill_md`       | ✅       | string                | Absolute path to SKILL.md  |
 
 ---
 
@@ -191,18 +203,21 @@ IS_EXTERNAL_MCP = True
 ### Option A: Subprocess Tool
 
 1. **Create directory:**
+
    ```bash
    mkdir my-tool-tool
    cd my-tool-tool
    ```
 
 2. **Copy and adapt template:**
+
    ```bash
    cp ../.agent/templates/agent_client_template.md agent_client.py
    # Edit placeholders: {{TOOL_NAME}}, etc.
    ```
 
 3. **Implement main.py:**
+
    ```python
    #!/usr/bin/env python3
    import argparse
@@ -219,12 +234,14 @@ IS_EXTERNAL_MCP = True
    ```
 
 4. **Create requirements.txt:**
+
    ```
    requests>=2.32.5
    # Add your dependencies
    ```
 
 5. **Create SKILL.md:**
+
    ```bash
    mkdir -p ../.agent/skills/my-tool-expert
    cd ../.agent/skills/my-tool-expert
@@ -232,6 +249,7 @@ IS_EXTERNAL_MCP = True
    ```
 
 6. **Register skill:**
+
    ```bash
    cd ..
    python scripts/discover_skills.py
@@ -247,6 +265,7 @@ IS_EXTERNAL_MCP = True
 ### Option B: MCP Server Tool
 
 1. **Create directory and requirements:**
+
    ```bash
    mkdir my-mcp-tool
    cd my-mcp-tool
@@ -258,6 +277,7 @@ IS_EXTERNAL_MCP = True
    ```
 
 2. **Implement mcp_server.py:**
+
    ```python
    from mcp.server import Server
    from mcp.server.stdio import stdio_server
@@ -275,6 +295,7 @@ IS_EXTERNAL_MCP = True
    ```
 
 3. **Copy agent_client.py template:**
+
    ```bash
    cp ../.agent/templates/agent_client_template.md agent_client.py
    # Set: INTEGRATION_TYPE = "mcp"
@@ -293,6 +314,7 @@ IS_EXTERNAL_MCP = True
 ### Option C: External MCP Tool (TrendRadar pattern)
 
 1. **Install external MCP server:**
+
    ```bash
    # TrendRadar example
    git clone https://github.com/sansan0/TrendRadar.git ~/TrendRadar
@@ -301,18 +323,21 @@ IS_EXTERNAL_MCP = True
    ```
 
 2. **Create tool directory:**
+
    ```bash
    mkdir trendradar-tool
    cd trendradar-tool
    ```
 
 3. **Create symlink:**
+
    ```bash
    # For external MCP servers
    ln -s ~/TrendRadar/mcp_server trendradar-mcp
    ```
 
 4. **Copy agent_client.py template:**
+
    ```bash
    cp ../.agent/templates/agent_client_template.md agent_client.py
    # Set: INTEGRATION_TYPE = "mcp"
@@ -352,7 +377,7 @@ client = create_mcp_client(
 # For external MCP server (like TrendRadar)
 client = create_mcp_client(
     server_path="~/TrendRadar/mcp_server/server.py",
-    server_name="trendradar-mcp",
+    server_name="my-tool-mcp",
     is_external=True
 )
 ```
@@ -457,6 +482,7 @@ If you have an old tool using the wrong pattern:
    - MCP: Use `INTEGRATION_TYPE = "mcp"`
 
 3. **Copy template:**
+
    ```bash
    cp .agent/templates/agent_client_template.md {tool}-tool/agent_client.py
    ```
@@ -513,6 +539,7 @@ If you have an old tool using the wrong pattern:
 **Cause:** Not adding parent directory to sys.path
 
 **Solution:**
+
 ```python
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -529,6 +556,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 **Cause:** Using deprecated pattern
 
 **Solution:** Use `mcp_client.py` module instead:
+
 ```python
 from mcp_client import create_mcp_client
 ```

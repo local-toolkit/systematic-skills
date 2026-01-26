@@ -19,12 +19,14 @@ It automatically adapts to different tool types: subprocess, MCP server, or meta
 **Examples:** yt-dlp-tool, news-aggregator-tool, imgconv-tool
 
 **Configuration:**
+
 ```python
 INTEGRATION_TYPE = "subprocess"
 TOOL_SCRIPT = "main.py"
 ```
 
 **Pattern:**
+
 ```python
 def run_tool(**kwargs):
     cmd = [python_exe, TOOL_SCRIPT]
@@ -39,16 +41,18 @@ def run_tool(**kwargs):
 
 **Best for:** Tools that need deep AI integration via MCP protocol
 
-**Examples:** playwright-tool, trendradar-tool (external MCP)
+**Examples:** playwright-tool
 
 **Configuration:**
+
 ```python
 INTEGRATION_TYPE = "mcp"
-MCP_SERVER_SCRIPT = "mcp_server.py"  # or "trendradar-mcp/server.py"
+MCP_SERVER_SCRIPT = "mcp_server.py"
 IS_EXTERNAL_MCP = True/False  # True for external servers like TrendRadar
 ```
 
 **Pattern:**
+
 ```python
 from mcp_client import create_mcp_client
 
@@ -72,12 +76,14 @@ async def run_tool(action: str, **kwargs):
 **Examples:** literature-search-expert, mcp-builder-expert, tool-development-expert
 
 **Configuration:**
+
 ```python
 INTEGRATION_TYPE = "meta"
 HAS_MAIN = False
 ```
 
 **Pattern:**
+
 ```python
 def main():
     # Display SKILL.md content
@@ -363,6 +369,7 @@ Replace these placeholders:
 6. `{{IS_EXTERNAL_MCP}}` - Set to False
 
 Implement:
+
 - `{{SUBPROCESS_IMPLEMENTATION}}` - Add your run_tool function
 - `{{LLM_TOOLS}}` - Define LLM tool schemas
 - `{{TOOL_FUNCTION_NAMES}}` - List tool function names
@@ -374,14 +381,15 @@ Implement:
 
 Replace these placeholders:
 
-1. `{{TOOL_NAME}}` - Tool name (e.g., "playwright", "trendradar")
+1. `{{TOOL_NAME}}` - Tool name (e.g., "playwright")
 2. `{{SKILL_NAME}}` - Skill name (e.g., "playwright-expert")
 3. `{{TOOL_DESCRIPTION}}` - One-line description
 4. `{{INTEGRATION_TYPE}}` - Set to "mcp"
-5. `{{MCP_SERVER_PATH}}` - Set to "mcp_server.py" or "trendradar-mcp/server.py"
+5. `{{MCP_SERVER_PATH}}` - Set to "mcp_server.py"
 6. `{{IS_EXTERNAL_MCP}}` - True for external MCP (like TrendRadar), False for local
 
 Implement:
+
 - `{{MCP_IMPLEMENTATION}}` - Add MCP client integration
 - `{{LLM_TOOLS}}` - Define LLM tool schemas
 - `{{TOOL_FUNCTION_NAMES}}` - List tool names from MCP server
@@ -399,6 +407,7 @@ Replace these placeholders:
 4. `{{INTEGRATION_TYPE}}` - Set to "meta"
 
 Simplify:
+
 - Remove tool execution code
 - Remove LLM tools definitions
 - Only implement SKILL.md display logic
@@ -477,6 +486,7 @@ python agent_client.py --action list_tools
 **Problem:** `ModuleNotFoundError: No module named 'mcp_client'`
 
 **Solution:** Ensure mcp_client.py is in the parent directory:
+
 ```python
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ```
@@ -486,9 +496,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 **Problem:** `MCP server not found at: ...`
 
 **Solution:** Run installation script or create symlink:
+
 ```bash
 bash install.sh  # For subprocess tools
-ln -s ~/TrendRadar/mcp_server trendradar-mcp  # For MCP tools
+# No symlink needed for local tools
 ```
 
 ### Issue 3: LLM connection fails
@@ -496,6 +507,7 @@ ln -s ~/TrendRadar/mcp_server trendradar-mcp  # For MCP tools
 **Problem:** `Error connecting to LLM: ...`
 
 **Solution:** Check LLM_URL is set and endpoint is available:
+
 ```bash
 echo $LLM_URL
 curl $LLM_URL  # Test endpoint
@@ -508,12 +520,14 @@ curl $LLM_URL  # Test endpoint
 If you're converting an existing agent_client.py:
 
 **Old pattern (deprecated):**
+
 ```python
 # ❌ Don't use this pattern
 from agent import call_mcp_tool  # This function doesn't exist!
 ```
 
 **New pattern (correct):**
+
 ```python
 # ✅ Use this pattern
 from mcp_client import create_mcp_client

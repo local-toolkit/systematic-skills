@@ -260,12 +260,99 @@ def fetch_producthunt(limit: int = 5, keyword: Optional[str] = None) -> List[Dic
         return filter_items(items, keyword)[:limit]
     except: return []
 
+def fetch_cnn(limit: int = 5, keyword: Optional[str] = None) -> List[Dict]:
+    try:
+        response = requests.get("https://edition.cnn.com/", headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        items = []
+        for article in soup.select('.container__item')[:limit*3]: 
+            try:
+                headline = article.select_one('.container__headline-text')
+                if not headline: continue
+                title = headline.get_text(strip=True)
+                
+                link_tag = article.select_one('a.container__link')
+                if not link_tag: continue
+                url = "https://edition.cnn.com" + link_tag['href'] if link_tag['href'].startswith('/') else link_tag['href']
+                
+                items.append({
+                    "source": "CNN",
+                    "title": title,
+                    "url": url,
+                    "time": "Latest",
+                    "heat": ""
+                })
+            except: continue
+        return filter_items(items, keyword)[:limit]
+    except: return []
+
+def fetch_foxnews(limit: int = 5, keyword: Optional[str] = None) -> List[Dict]:
+    try:
+        response = requests.get("https://www.foxnews.com/", headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        items = []
+        for article in soup.select('article.article')[:limit*3]:
+            try:
+                title_tag = article.select_one('.title a')
+                if not title_tag: continue
+                title = title_tag.get_text(strip=True)
+                url = title_tag['href']
+                if not url.startswith('http'): url = "https://www.foxnews.com" + url
+                
+                items.append({
+                    "source": "Fox News",
+                    "title": title,
+                    "url": url,
+                    "time": "Latest",
+                    "heat": ""
+                })
+            except: continue
+        return filter_items(items, keyword)[:limit]
+    except: return []
+
+def fetch_nypost(limit: int = 5, keyword: Optional[str] = None) -> List[Dict]:
+    try:
+        response = requests.get("https://nypost.com/", headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        items = []
+        for article in soup.select('.story')[:limit*6]:
+            try:
+                headline = article.select_one('.story__headline') 
+                if not headline: headline = article.select_one('h3')
+                if not headline: continue
+                title = headline.get_text(strip=True)
+                
+                link_tag = article.select_one('.story__headline a, .story__link, a')
+                if not link_tag: continue
+                url = link_tag['href']
+                
+                # Filter out promos and non-news links
+                if any(x in url for x in ['magellan.ai', 'email.nypost.com', 'link.mgln.ai']):
+                    continue
+                if not url.startswith('http'): url = "https://nypost.com" + url
+                if "nypost.com" not in url: continue
+                
+                meta = article.select_one('.meta') 
+                time_str = meta.get_text(strip=True) if meta else ""
+
+                items.append({
+                    "source": "NY Post",
+                    "title": title,
+                    "url": url,
+                    "time": time_str,
+                    "heat": ""
+                })
+            except: continue
+        return filter_items(items, keyword)[:limit]
+    except: return []
+
 def main():
     parser = argparse.ArgumentParser()
     sources_map = {
         'hackernews': fetch_hackernews, 'weibo': fetch_weibo, 'github': fetch_github,
         '36kr': fetch_36kr, 'v2ex': fetch_v2ex, 'tencent': fetch_tencent,
-        'wallstreetcn': fetch_wallstreetcn, 'producthunt': fetch_producthunt
+        'wallstreetcn': fetch_wallstreetcn, 'producthunt': fetch_producthunt,
+        'cnn': fetch_cnn, 'foxnews': fetch_foxnews, 'nypost': fetch_nypost
     }
     
     parser.add_argument('--source', default='all', help='Source(s) to fetch from (comma-separated)')

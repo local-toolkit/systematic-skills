@@ -44,7 +44,7 @@ class MCPClient:
 
     Supports two modes:
     1. Local MCP server: tool has its own mcp_server.py
-    2. External MCP server: uses external MCP server (like TrendRadar)
+    2. External MCP server: uses external MCP server patterns
     """
 
     def __init__(

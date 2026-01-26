@@ -2,7 +2,7 @@
 
 ## 概述
 
-本文档描述了为统一 MCP（Model Context Protocol）集成而设计的标准化架构。这个架构解决了之前 trendradar-tool 中出现的问题，并为所有未来的工具开发提供了标准模式。
+本文档描述了为统一 MCP（Model Context Protocol）集成而设计的标准化架构。这个架构解决了之前工具集成中出现的问题，并为所有未来的工具开发提供了标准模式。
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### 原始问题
 
-trendradar-tool 的 `agent_client.py` 假设了一个不存在的函数：
+某些工具的 `agent_client.py` 假设了一个不存在的函数：
 
 ```python
 # ❌ 错误的假设
@@ -56,17 +56,20 @@ from agent import call_mcp_tool  # 这个函数不存在！
 **适用场景**：简单的命令行工具，不需要 MCP 协议
 
 **代表工具**：
+
 - yt-dlp-tool
 - news-aggregator-tool
 - imgconv-tool
 
 **特征**：
+
 - 有 `main.py` 作为核心实现
 - 使用 `subprocess.run()` 执行
 - 无 MCP 服务器
 - 简单的 CLI 接口
 
 **实现模式**：
+
 ```python
 # agent_client.py
 INTEGRATION_TYPE = "subprocess"
@@ -84,16 +87,18 @@ def run_tool(**kwargs):
 **适用场景**：需要与 AI 助手深度集成的工具
 
 **代表工具**：
+
 - playwright-tool（本地 MCP）
-- trendradar-tool（外部 MCP）
 
 **特征**：
+
 - 有 `mcp_server.py` 实现 MCP 协议
 - 使用 `mcp_client.py` 统一客户端
 - 提供 10+ 标准化工具
 - 异步执行
 
 **实现模式**：
+
 ```python
 # agent_client.py
 INTEGRATION_TYPE = "mcp"
@@ -103,7 +108,7 @@ from mcp_client import create_mcp_client
 client = create_mcp_client(
     server_path="mcp_server.py",
     server_name="my-tool-mcp",
-    is_external=False  # True for external MCP like TrendRadar
+    is_external=False
 )
 
 async def run_tool(action: str, **kwargs):
@@ -112,6 +117,7 @@ async def run_tool(action: str, **kwargs):
 ```
 
 **MCP 服务器实现**：
+
 ```python
 # mcp_server.py
 from mcp.server import Server
@@ -136,16 +142,19 @@ async def main():
 **适用场景**：提供指导而非执行的技能
 
 **代表工具**：
+
 - literature-search-expert
 - mcp-builder-expert
 - tool-development-expert
 
 **特征**：
+
 - 无 `main.py` 或 `mcp_server.py`
 - 仅显示 `SKILL.md` 内容
 - 统一 agent.py 处理路由和显示
 
 **实现模式**：
+
 ```python
 # agent_client.py（简化）
 INTEGRATION_TYPE = "meta"
@@ -180,6 +189,7 @@ class MCPClient:
 ### 使用示例
 
 **本地 MCP 服务器：**
+
 ```python
 from mcp_client import create_mcp_client
 
@@ -192,16 +202,7 @@ client = create_mcp_client(
 result = client.call_tool_sync("tool_name", param="value")
 ```
 
-**外部 MCP 服务器（TrendRadar）：**
-```python
-client = create_mcp_client(
-    server_path="~/TrendRadar/mcp_server/server.py",
-    server_name="trendradar-mcp",
-    is_external=True
-)
-
-result = client.call_tool_sync("get_latest_news", limit=50)
-```
+result = client.call_tool_sync("tool_name", param="value")
 
 ---
 
@@ -212,12 +213,14 @@ result = client.call_tool_sync("get_latest_news", limit=50)
 位置：`.agent/templates/agent_client_template.md`
 
 **功能**：
+
 - 支持所有三种工具类型
 - 占位符系统：`{{TOOL_NAME}}`, `{{INTEGRATION_TYPE}}` 等
 - 预生成的代码结构
 - 详细的填空指南
 
 **支持的配置：**
+
 - subprocess 工具的完整实现
 - MCP 工具的完整实现
 - 元技能的简化实现
@@ -271,11 +274,11 @@ python agent_client.py "测试命令"
 {
   "name": "skill-name-expert",
   "function_name": "skill-name",
-  "type": "execution",           // "execution" | "meta"
-  "integration": "subprocess",   // "subprocess" | "mcp" | "none"
-  "has_main": true,              // 新字段
-  "has_mcp_server": false,       // 新字段
-  "is_external": false,           // 新字段（仅用于 external MCP）
+  "type": "execution", // "execution" | "meta"
+  "integration": "subprocess", // "subprocess" | "mcp" | "none"
+  "has_main": true, // 新字段
+  "has_mcp_server": false, // 新字段
+  "is_external": false, // 新字段（仅用于 external MCP）
   "tool_dir": "{skill-name}-tool",
   "description": "...",
   "status": "active",
@@ -286,12 +289,12 @@ python agent_client.py "测试命令"
 
 ### 字段说明
 
-| 字段 | 说明 | 值 |
-|------|------|-----|
-| `integration` | 集成方式 | subprocess, mcp, none |
-| `has_main` | 是否有 main.py | true, false |
-| `has_mcp_server` | 是否有 mcp_server.py | true, false |
-| `is_external` | 是否为外部 MCP | true, false |
+| 字段             | 说明                 | 值                    |
+| ---------------- | -------------------- | --------------------- |
+| `integration`    | 集成方式             | subprocess, mcp, none |
+| `has_main`       | 是否有 main.py       | true, false           |
+| `has_mcp_server` | 是否有 mcp_server.py | true, false           |
+| `is_external`    | 是否为外部 MCP       | true, false           |
 
 ---
 
@@ -313,22 +316,26 @@ python agent_client.py "测试命令"
 ### 迁移现有工具到新架构
 
 **步骤 1：识别工具类型**
+
 - 检查是否有 `main.py` → subprocess 工具
 - 检查是否有 `mcp_server.py` → MCP 工具
 - 都没有 → 元技能
 
 **步骤 2：使用模板**
+
 ```bash
 # 从模板创建新的 agent_client.py
 cp .agent/templates/agent_client_template.md {tool}-tool/agent_client.py
 ```
 
 **步骤 3：适配占位符**
+
 - 替换 `{{TOOL_NAME}}` 为实际工具名
 - 设置 `{{INTEGRATION_TYPE}}` 为正确类型
 - 实现/移除特定功能的代码
 
 **步骤 4：测试和验证**
+
 - 运行技能发现脚本
 - 测试菜单显示
 - 测试工具执行
@@ -380,6 +387,7 @@ requests>=2.32.5,<3.0.0
 **原因**：没有将父目录添加到 sys.path
 
 **解决**：
+
 ```python
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -392,13 +400,7 @@ from mcp_client import create_mcp_client
 
 **原因**：MCP 服务器路径不正确或未安装
 
-**解决**：运行安装脚本或创建符号链接
-```bash
-# 对于外部 MCP（如 TrendRadar）
-git clone https://github.com/sansan0/TrendRadar.git ~/TrendRadar
-cd trendradar-tool
-ln -s ~/TrendRadar/mcp_server trendradar-mcp
-```
+**解决**：运行安装脚本或正确配置路径。
 
 ### 问题 3：错误的 MCP 集成模式
 
@@ -407,6 +409,7 @@ ln -s ~/TrendRadar/mcp_server trendradar-mcp
 **原因**：假设了不存在的统一 MCP 客户端
 
 **解决**：使用新的 `mcp_client.py`
+
 ```python
 # ❌ 错误
 from agent import call_mcp_tool
@@ -427,6 +430,7 @@ client = create_mcp_client(
 ### 1. 统一性
 
 所有 MCP 工具使用相同的客户端实现：
+
 - 代码复用
 - 统一错误处理
 - 一致的 API
@@ -434,6 +438,7 @@ client = create_mcp_client(
 ### 2. 可维护性
 
 清晰的目录结构和模板：
+
 - 新开发者容易理解
 - 减少重复代码
 - 文档即模板
@@ -441,12 +446,14 @@ client = create_mcp_client(
 ### 3. 可扩展性
 
 工具类型系统允许轻松添加新类型：
+
 - 当前支持：subprocess, MCP, meta
 - 未来可扩展：如 gRPC, WebSocket 等
 
 ### 4. 标准化
 
 所有工具遵循相同的规范：
+
 - 命名约定
 - 代码结构
 - 文档格式
@@ -457,21 +464,21 @@ client = create_mcp_client(
 
 ### 已创建/更新的文件
 
-| 文件 | 路径 | 说明 |
-|------|------|------|
-| `mcp_client.py` | `/mcp_client.py` | 统一 MCP 客户端 |
-| `agent_client_template.md` | `/.agent/templates/agent_client_template.md` | agent_client.py 模板 |
-| `tool_development_guide.md` | `/.agent/workflows/tool_development_guide.md` | 工具开发指南 |
-| `discover_skills.py` | `/scripts/discover_skills.py` | 技能发现（已增强） |
-| `create_tool.py` | `/scripts/create_tool.py` | 工具生成脚本（新） |
-| `AGENTS.md` | `/AGENTS.md` | 主文档（已更新） |
+| 文件                        | 路径                                          | 说明                 |
+| --------------------------- | --------------------------------------------- | -------------------- |
+| `mcp_client.py`             | `/mcp_client.py`                              | 统一 MCP 客户端      |
+| `agent_client_template.md`  | `/.agent/templates/agent_client_template.md`  | agent_client.py 模板 |
+| `tool_development_guide.md` | `/.agent/workflows/tool_development_guide.md` | 工具开发指南         |
+| `discover_skills.py`        | `/scripts/discover_skills.py`                 | 技能发现（已增强）   |
+| `create_tool.py`            | `/scripts/create_tool.py`                     | 工具生成脚本（新）   |
+| `AGENTS.md`                 | `/AGENTS.md`                                  | 主文档（已更新）     |
 
 ### 已修复的文件
 
-| 文件 | 路径 | 修复内容 |
-|------|------|--------|
-| `agent_client.py` | `/trendradar-tool/agent_client.py` | 使用正确的 MCP 集成 |
-| `requirements.txt` | `/trendradar-tool/requirements.txt` | 添加 mcp>=0.9.0 |
+| 文件               | 路径                                | 修复内容            |
+| ------------------ | ----------------------------------- | ------------------- |
+| `agent_client.py`  | `/playwright-tool/agent_client.py`  | 使用正确的 MCP 集成 |
+| `requirements.txt` | `/playwright-tool/requirements.txt` | 添加 mcp>=0.9.0     |
 
 ---
 
@@ -563,9 +570,8 @@ python agent_client.py "menu"
 │      │                        │                  │     │
 │      ▼                        ▼                  │     │
 │ ┌────────────┐        ┌──────────────┐             │
-│ │MCP Server 1│        │MCP Server 2  │ (外部)    │
-│ │(本地,如     │        │(外部,如     │             │
-│ │playwright)  │        │TrendRadar)   │             │
+│ │MCP Server 1│        │MCP Server 2  │             │
+│ │(本地)       │        │(其他类型)    │             │
 │ └────────────┘        └──────────────┘             │
 └───────────────────────────────────────────────────────┘
 ```

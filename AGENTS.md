@@ -3,6 +3,7 @@
 ## Build/Lint/Test Commands
 
 ### Frontend (Next.js - `fuck_the_exam/frontend/`)
+
 ```bash
 # Development
 npm run dev              # Start dev server on 0.0.0.0:3000
@@ -12,6 +13,7 @@ npm run lint             # Run ESLint
 ```
 
 ### Backend (FastAPI - `fuck_the_exam/backend/`)
+
 ```bash
 # Development
 cd fuck_the_exam && uvicorn backend.main:app --reload --port 28888
@@ -25,6 +27,7 @@ pytest tests/ -k "test_name" -v   # Run tests matching pattern
 ```
 
 ### Tool Execution (Python scripts)
+
 ```bash
 # yt-dlp-tool
 cd yt-dlp-tool && python agent_client.py "<query>"
@@ -54,6 +57,7 @@ python debug_db.py       # Debug database
 ## Code Style Guidelines
 
 ### Python (Backend & Tools)
+
 - **Naming**: `snake_case` for functions/variables, `PascalCase` for classes
 - **Imports**: Group stdlib, third-party, local imports (separated by blank lines)
 - **Types**: Use type hints from `typing` module (List, Optional, Dict, Any)
@@ -62,6 +66,7 @@ python debug_db.py       # Debug database
 - **Error Handling**: Raise HTTPException from FastAPI for API errors
 
 Example:
+
 ```python
 from typing import List, Optional
 from fastapi import HTTPException
@@ -75,6 +80,7 @@ def get_user(db: Session, user_id: int) -> Optional[User]:
 ```
 
 ### JavaScript/React (Frontend)
+
 - **Naming**: `camelCase` for variables/functions, `PascalCase` for components
 - **Imports**: Absolute imports from `components/`, `lib/`, `contexts/`
 - **Components**: Functional components with hooks (useState, useEffect)
@@ -82,10 +88,11 @@ def get_user(db: Session, user_id: int) -> Optional[User]:
 - **State Management**: React Context for global state
 
 Example:
+
 ```javascript
-'use client';
-import { useState, useEffect } from 'react';
-import { Card, CardHeader } from '../components/ui/card';
+"use client";
+import { useState, useEffect } from "react";
+import { Card, CardHeader } from "../components/ui/card";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -97,33 +104,39 @@ export default function Dashboard() {
 ### Project-Specific Conventions
 
 #### Cursor Rules (from `.cursorrules`)
+
 1. **Prioritize `.agent` Directory**: Check `.agent/skills/` and `.agent/workflows/` before implementing
 2. **Use Specialized Scripts**: Prefer scripts in `.agent/skills/*/scripts/` over generic searches
 3. **Workflow Adherence**: Follow `.agent/workflows/` SOPs for standard tasks
 4. **Session Tracking**: Update `.agent/task.md` and `implementation_plan.md` for progress
 
 #### File Organization
+
 - **Backend**: `models.py` (DB models), `main.py` (FastAPI routes), `services/` (business logic)
 - **Frontend**: `app/` (Next.js pages), `components/` (reusable UI), `lib/` (utilities)
 - **Tools**: `{name}-tool/agent_client.py` as entry point
 
 #### Error Handling
+
 - **Backend**: Return 4xx/5xx HTTP status codes with descriptive messages
 - **Frontend**: Display user-friendly error messages, log details to console
 - **Tools**: Use subprocess error handling with try/except blocks
 
 #### Database Conventions
+
 - Use SQLAlchemy relationships with `back_populates`
 - Add indexes on frequently queried fields (id, hash, knowledge_point)
 - Use `server_default=func.now()` for timestamps
 - Implement CASCADE delete on foreign keys
 
 ## Testing Notes
+
 - No test framework detected in pyproject.toml
 - Verify test commands before running (check for pytest, unittest, or custom test scripts)
 - When adding tests, place them in `tests/` directory following Python test naming: `test_*.py` or `*_test.py`
 
 ## Quick Reference
+
 ```bash
 # Start full stack
 cd fuck_the_exam && npm run dev  # Terminal 1
@@ -136,6 +149,7 @@ python agent.py "your request here"
 ## Unified Agent System
 
 ### Quick Start
+
 ```bash
 # Single entry point for all tasks
 python agent.py "下载这个视频 https://www.youtube.com/watch?v=xxx"
@@ -144,6 +158,7 @@ python agent.py "Create a new MCP server for GitHub API"
 ```
 
 ### How It Works
+
 1. **Auto-Discovery**: Scans `.agent/skills/` directory for all available skills
 2. **AI Selection**: Analyzes request to select most appropriate skill
 3. **Smart Routing**:
@@ -151,6 +166,7 @@ python agent.py "Create a new MCP server for GitHub API"
    - Meta skills: Displays guidance from SKILL.md
 
 ### Maintaining Documentation
+
 ```bash
 # When adding new skills/tools, run:
 python scripts/discover_skills.py  # Regenerate skill registry
@@ -162,9 +178,11 @@ See `UNIFIED_AGENT.md` for complete documentation.
 ## Agent Skills Directory
 
 ### Overview
+
 The `.agent/skills/` directory contains expert knowledge bases (skills) that map to executable tools. Before implementing new functionality, always check if a relevant skill exists.
 
 ### Skills Directory Structure
+
 ```
 .agent/
 ├── skills/
@@ -177,28 +195,18 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 ```
 
 ### Skill-to-Tool Mapping
-| Skill Name | Tool Directory | Description | Status |
-|-----------|---------------|-------------|--------|
-| `imgconv-expert` | `tools/imgconv-tool/` |  | Active |
-| `literature-search-expert` | (Meta-skill) | 资深文献计量学专家与智能检索系统，专门用于学术扫盲、方法论筛选及高置信度证据合成... | Active |
-| `mcp-builder-expert` | (Meta-skill) | Guide for creating high-quality MCP (Mod... | Active |
-| `news-aggregator-expert` | `tools/news-aggregator-tool/` | Comprehensive news aggregator that fetch... | Active |
-| `paper-audit-expert` | `tools/paper-audit-tool/` | rigorous academic auditing workflow for ... | Active |
-| `pdf-downloader-expert` | `tools/pdf-downloader-tool/` | PDF 链接下载与归档专家。自动化从 URL 提取并下载 PDF 文件到 pap... | Active |
-| `playwright-expert` | `tools/playwright-tool/` | Professional web testing and automation ... | Active |
-| `tool-development-expert` | (Meta-skill) | Meta-skill for standardizing AI creation... | Active |
-| `trendradar-expert` | `tools/trendradar-tool/` | Comprehensive Chinese news aggregation a... | Active |
-| `yt-dlp-expert` | `tools/yt-dlp-tool/` | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。 | Active |
 
-
-
-
-
-
-
-
-
-
+| Skill Name                 | Tool Directory                | Description                                                                         | Status |
+| -------------------------- | ----------------------------- | ----------------------------------------------------------------------------------- | ------ |
+| `imgconv-expert`           | `tools/imgconv-tool/`         |                                                                                     | Active |
+| `literature-search-expert` | (Meta-skill)                  | 资深文献计量学专家与智能检索系统，专门用于学术扫盲、方法论筛选及高置信度证据合成... | Active |
+| `mcp-builder-expert`       | (Meta-skill)                  | Guide for creating high-quality MCP (Mod...                                         | Active |
+| `news-aggregator-expert`   | `tools/news-aggregator-tool/` | Comprehensive news aggregator that fetch...                                         | Active |
+| `paper-audit-expert`       | `tools/paper-audit-tool/`     | rigorous academic auditing workflow for ...                                         | Active |
+| `pdf-downloader-expert`    | `tools/pdf-downloader-tool/`  | PDF 链接下载与归档专家。自动化从 URL 提取并下载 PDF 文件到 pap...                   | Active |
+| `playwright-expert`        | `tools/playwright-tool/`      | Professional web testing and automation ...                                         | Active |
+| `tool-development-expert`  | (Meta-skill)                  | Meta-skill for standardizing AI creation...                                         | Active |
+| `yt-dlp-expert`            | `tools/yt-dlp-tool/`          | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。                | Active |
 
 ### Using Skills
 
@@ -216,6 +224,7 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 5. Test thoroughly before use
 
 ### Naming Conventions
+
 - **Skill names**: `{function-name}-expert` (e.g., `yt-dlp-expert`)
 - **Tool directories**: `{function-name}-tool` (e.g., `yt-dlp-tool`)
 - **Entry points**: `{tool}/agent_client.py` (always)
@@ -223,10 +232,12 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 ### MCP Integration Patterns
 
 #### Tool Type 1: Subprocess Tools
+
 **Best for:** Simple CLI tools without MCP
 **Examples:** yt-dlp-tool, news-aggregator-tool, imgconv-tool
 
 **Implementation:**
+
 ```python
 # In agent_client.py
 def run_tool(**kwargs):
@@ -236,6 +247,7 @@ def run_tool(**kwargs):
 ```
 
 **Characteristics:**
+
 - Have `main.py` as core implementation
 - Use `subprocess.run()` to execute
 - No MCP server needed
@@ -244,10 +256,12 @@ def run_tool(**kwargs):
 ---
 
 #### Tool Type 2: MCP Server Tools
+
 **Best for:** Tools needing deep AI integration via MCP protocol
-**Examples:** playwright-tool, trendradar-tool (external)
+**Examples:** playwright-tool
 
 **Implementation:**
+
 ```python
 # In agent_client.py
 from mcp_client import create_mcp_client
@@ -255,7 +269,7 @@ from mcp_client import create_mcp_client
 client = create_mcp_client(
     server_path="mcp_server.py",
     server_name="my-tool-mcp",
-    is_external=False  # True for external MCP like TrendRadar
+    is_external=False
 )
 
 async def run_tool(action: str, **kwargs):
@@ -264,13 +278,14 @@ async def run_tool(action: str, **kwargs):
 ```
 
 **Characteristics:**
+
 - Have `mcp_server.py` implementing MCP protocol
 - Use `mcp_client.py` for integration
 - Provide 10+ tools with standardized schema
 - Async execution
-- External MCP servers (like TrendRadar) need symlinks
 
 **Requirements:**
+
 ```txt
 mcp>=0.9.0
 ```
@@ -278,10 +293,12 @@ mcp>=0.9.0
 ---
 
 #### Tool Type 3: Meta Skills
+
 **Best for:** Skills that provide guidance only
 **Examples:** literature-search-expert, mcp-builder-expert, tool-development-expert
 
 **Implementation:**
+
 ```python
 # In agent_client.py (minimal)
 def main():
@@ -290,6 +307,7 @@ def main():
 ```
 
 **Characteristics:**
+
 - No `main.py` or `mcp_server.py`
 - Display `SKILL.md` content only
 - Unified agent.py handles routing and display
@@ -299,12 +317,14 @@ def main():
 ### Anti-Patterns
 
 #### ❌ DO NOT: Assume non-existent functions
+
 ```python
 # Wrong pattern (caused bug!)
 from agent import call_mcp_tool  # This function doesn't exist!
 ```
 
 **Correct pattern:**
+
 ```python
 # Use unified MCP client
 from mcp_client import create_mcp_client
