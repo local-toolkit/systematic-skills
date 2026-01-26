@@ -68,9 +68,10 @@ Read the target PDF.
 
 #### Step 3: 可视化与归档 (Visualization & Archival)
 
-1.  **生成 SVG (Python)**: 编写并运行 Python 脚本生成一个高质量、可阅读的 **横向三层结构系统架构图 (Horizontal 3-Layer System Architecture)**。
+1.  **生成 SVG (Python)**: 使用 `tools/paper-audit-tool/academic_svg.py` 库编写并运行 Python 脚本生成一个高质量、可阅读的 **横向三层结构系统架构图 (Horizontal 3-Layer System Architecture)**。
+    - **必须使用**: `AcademicSVG` 类来保证样式统一。
     - **必须包含**: 左侧输入层 (Input Layer)、中间处理/逻辑层 (Processing/Logic Layer)、右侧输出/成品层 (Output Layer)。
-    - **样式**: 学术风格，配色专业 (e.g., light blue/gray backgrounds, clear strokes)，文字清晰 (Arial/Helvetica)。
+    - **样式**: 使用内置主题 (e.g., standard/neurips)，确保含有阴影、图层背景和清晰的连接线。
     - **输出**: 保存为 `.svg` 文件在 `tools/paper_audit/notes/` 目录下。
 2.  **创建笔记**: 严格按照上述四个阶段（一、二、三、四）组织 Markdown。
     - 文件名格式: `tools/paper_audit/notes/<Paper_Title>.md`。
