@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 650">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#d32f2f" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2e7d32" />
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0d47a1" />
+    </marker>
+  </defs>
+  <rect width="1100" height="650" fill="#f8f9fa" />
+  <text x="550.0" y="40" text_anchor="middle" fill="#333" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="24" font-weight="bold">IncogniText: 隐私增强条件文本匿名化系统架构</text>
+  <g transform="translate(30, 70)">
+    <rect x="0" y="0" width="280" height="530" rx="10" fill="#e3f2fd" stroke="#2196f3" stroke_width="2" />
+    <text x="140.0" y="30" text_anchor="middle" fill="#0d47a1" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="18" font-weight="bold">输入层</text>
+    <text x="140.0" y="50" text_anchor="middle" fill="#0d47a1" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="12">Input Layer</text>
+  </g>
+  <g transform="translate(50, 120)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#e3f2fd" stroke="#2196f3" stroke_width="1" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">原始用户文本</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">xorig</text>
+  </g>
+  <g transform="translate(50, 190)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#e3f2fd" stroke="#2196f3" stroke_width="1" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">目标属性值</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">atarget</text>
+  </g>
+  <g transform="translate(50, 260)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#bbdefb" stroke="#2196f3" stroke_width="1" stroke-dasharray="5,3" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">真实属性值 (可选)</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">atrue</text>
+  </g>
+  <g transform="translate(50, 330)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#e3f2fd" stroke="#2196f3" stroke_width="1" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">对抗模板</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Tadv</text>
+  </g>
+  <g transform="translate(50, 400)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#e3f2fd" stroke="#2196f3" stroke_width="1" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">匿名化模板</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Tanon</text>
+  </g>
+  <g transform="translate(50, 470)">
+    <rect x="0" y="0" width="240" height="80" rx="5" fill="#e3f2fd" stroke="#2196f3" stroke_width="1" />
+    <text x="120.0" y="35.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">属性类型</text>
+    <text x="120.0" y="55.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">age, gender, income,
+occupation, location...</text>
+  </g>
+  <g transform="translate(340, 70)">
+    <rect x="0" y="0" width="420" height="530" rx="10" fill="#fff3e0" stroke="#ff9800" stroke_width="2" />
+    <text x="210.0" y="30" text_anchor="middle" fill="#e65100" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="18" font-weight="bold">处理层</text>
+    <text x="210.0" y="50" text_anchor="middle" fill="#e65100" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="12">Processing/Logic Layer</text>
+  </g>
+  <g transform="translate(370, 130)">
+    <rect x="0" y="0" width="170" height="60" rx="5" fill="#fff3e0" stroke="#ff9800" stroke_width="2" />
+    <text x="85.0" y="25.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14" font-weight="bold">对抗模型</text>
+    <text x="85.0" y="45.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Madv</text>
+  </g>
+  <g transform="translate(550, 130)">
+    <rect x="0" y="0" width="180" height="60" rx="5" fill="#ffe0b2" stroke="#ff9800" stroke_width="1" />
+    <text x="90.0" y="25.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">推理 &amp; 推断</text>
+    <text x="90.0" y="45.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Reasoning R, Inference I</text>
+  </g>
+  <g>
+    <polygon points="460,235.0 500.0,260 460,285.0 420.0,260" fill="#fff9c4" stroke="#fbc02d" stroke_width="1.5" />
+    <text x="460" y="264" text_anchor="middle" fill="#333" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="12">I = atrue?</text>
+  </g>
+  <g transform="translate(370, 310)">
+    <rect x="0" y="0" width="170" height="60" rx="5" fill="#fff3e0" stroke="#ff9800" stroke_width="2" />
+    <text x="85.0" y="25.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14" font-weight="bold">匿名化模型</text>
+    <text x="85.0" y="45.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Manon</text>
+  </g>
+  <g transform="translate(550, 310)">
+    <rect x="0" y="0" width="180" height="60" rx="5" fill="#ffe0b2" stroke="#ff9800" stroke_width="1" />
+    <text x="90.0" y="25.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">文本重写</text>
+    <text x="90.0" y="45.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Conditional Rewriting</text>
+  </g>
+  <g transform="translate(370, 400)">
+    <rect x="0" y="0" width="360" height="50" rx="5" fill="#ffecb3" stroke="#ffa000" stroke_width="1" />
+    <text x="180.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">迭代循环: i = 1..n (早停机制)</text>
+    <text x="180.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Adversarial Training Paradigm</text>
+  </g>
+  <g transform="translate(370, 470)">
+    <rect x="0" y="0" width="360" height="55" rx="5" fill="#ffccbc" stroke="#e64a19" stroke_width="1" stroke-dasharray="5,3" />
+    <text x="180.0" y="22.5" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">LoRA 知识蒸馏</text>
+    <text x="180.0" y="42.5" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Qwen2-1.5B (On-device)</text>
+  </g>
+  <g transform="translate(370, 540)">
+    <rect x="0" y="0" width="360" height="45" rx="5" fill="#fff8e1" stroke="#ff6f00" stroke_width="2" />
+    <text x="180.0" y="27.5" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14" font-weight="bold">核心创新: 条件化目标属性 + 对抗早停</text>
+  </g>
+  <g transform="translate(790, 70)">
+    <rect x="0" y="0" width="280" height="530" rx="10" fill="#e8f5e9" stroke="#4caf50" stroke_width="2" />
+    <text x="140.0" y="30" text_anchor="middle" fill="#1b5e20" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="18" font-weight="bold">输出层</text>
+    <text x="140.0" y="50" text_anchor="middle" fill="#1b5e20" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="12">Output Layer</text>
+  </g>
+  <g transform="translate(810, 120)">
+    <rect x="0" y="0" width="240" height="60" rx="5" fill="#e8f5e9" stroke="#4caf50" stroke_width="2" />
+    <text x="120.0" y="25.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14" font-weight="bold">匿名化文本</text>
+    <text x="120.0" y="45.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">xanon</text>
+  </g>
+  <g transform="translate(810, 200)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#c8e6c9" stroke="#4caf50" stroke_width="1" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">隐私保护</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">↓90% 属性泄露</text>
+  </g>
+  <g transform="translate(810, 270)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#c8e6c9" stroke="#4caf50" stroke_width="1" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">效用保持</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">ROUGE ~80%</text>
+  </g>
+  <g transform="translate(810, 340)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#c8e6c9" stroke="#4caf50" stroke_width="1" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">LLM效用判断</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Utility ~92%</text>
+  </g>
+  <g transform="translate(810, 410)">
+    <rect x="0" y="0" width="240" height="80" rx="5" fill="#a5d6a7" stroke="#2e7d32" stroke_width="2" />
+    <text x="120.0" y="35.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14" font-weight="bold">评估指标</text>
+    <text x="120.0" y="55.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">Privacy: 7.2%
+ROUGE: 80.7%
+Utility: 92.2%</text>
+  </g>
+  <g transform="translate(810, 510)">
+    <rect x="0" y="0" width="240" height="50" rx="5" fill="#dcedc8" stroke="#689f38" stroke_width="1" stroke-dasharray="5,3" />
+    <text x="120.0" y="20.0" text_anchor="middle" fill="#000" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="14">端侧模型部署</text>
+    <text x="120.0" y="40.0" text_anchor="middle" fill="#555" font-family="'Microsoft YaHei', SimHei, sans-serif" font-size="11">On-device Ready</text>
+  </g>
+  <path d="M290,145 290,145 L368,160" fill="none" stroke="#2196f3" stroke_width="2" marker_end="url(#arrow)" />
+  <path d="M290,215 290,215 L360,260" fill="none" stroke="#2196f3" stroke_width="1.5" marker_end="url(#arrow)" />
+  <path d="M290,430 290,430 L368,340" fill="none" stroke="#2196f3" stroke_width="1.5" marker_end="url(#arrow)" />
+  <path d="M540,160 540,160 L548,160" fill="none" stroke="#ff9800" stroke_width="2" marker_end="url(#arrow)" />
+  <path d="M460,190 460,190 L460,235" fill="none" stroke="#ff9800" stroke_width="1.5" marker_end="url(#arrow)" />
+  <path d="M460,285 460,285 L460,308" fill="none" stroke="#2e7d32" stroke_width="2" marker_end="url(#arrow-green)" />
+  <text x="465.0" y="296.5" font_family="'Microsoft YaHei', SimHei, sans-serif" font_size="11" fill="#2e7d32">Yes</text>
+  <path d="M500,260 500,260 L788,150" fill="none" stroke="#d32f2f" stroke_width="2" marker_end="url(#arrow-red)" stroke-dasharray="5,5" />
+  <text x="649.0" y="205.0" font_family="'Microsoft YaHei', SimHei, sans-serif" font_size="11" fill="#d32f2f">No → 早停</text>
+  <path d="M540,340 540,340 L548,340" fill="none" stroke="#ff9800" stroke_width="2" marker_end="url(#arrow)" />
+  <path d="M370,380 370,380 L340,380 L340,160 L368,160" fill="none" stroke="#ff6f00" stroke_width="1.5" marker_end="url(#arrow)" stroke-dasharray="5,5" />
+  <text x="345.0" y="270.0" font_family="'Microsoft YaHei', SimHei, sans-serif" font_size="11" fill="#ff6f00">迭代</text>
+  <path d="M730,340 730,340 L788,150" fill="none" stroke="#4caf50" stroke_width="2.5" marker_end="url(#arrow)" />
+  <path d="M760,425 760,425 L808,450" fill="none" stroke="#4caf50" stroke_width="2" marker_end="url(#arrow)" />
+</svg>
