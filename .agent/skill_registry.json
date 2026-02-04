@@ -29,11 +29,11 @@
   },
   {
     "name": "imgconv-expert",
-    "function_name": "imgconv",
+    "function_name": "imgconv-expert",
     "tool_dir": ".agent/skills/imgconv-expert/tool",
     "type": "execution",
     "integration": "subprocess",
-    "description": "",
+    "description": "Professional image processing expert based on sunshineplan/imgconv Go library.",
     "status": "active",
     "path": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/imgconv-expert",
     "skill_md": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/imgconv-expert/SKILL.md",

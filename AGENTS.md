@@ -143,7 +143,7 @@ cd fuck_the_exam && npm run dev  # Terminal 1
 cd fuck_the_exam && uvicorn backend.main:app --reload --port 28888  # Terminal 2
 
 # Unified agent - single entry point for all tools
-python agent.py "your request here"
+python core/agent.py "your request here"
 ```
 
 ## Unified Agent System
@@ -152,9 +152,9 @@ python agent.py "your request here"
 
 ```bash
 # Single entry point for all tasks
-python agent.py "下载这个视频 https://www.youtube.com/watch?v=xxx"
-python agent.py "看看 Hacker News 有什么 AI 新闻"
-python agent.py "Create a new MCP server for GitHub API"
+python core/agent.py "下载这个视频 https://www.youtube.com/watch?v=xxx"
+python core/agent.py "看看 Hacker News 有什么 AI 新闻"
+python core/agent.py "Create a new MCP server for GitHub API"
 ```
 
 ### How It Works
@@ -197,17 +197,21 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 
 ### Skill-to-Tool Mapping
 
-| Skill Name                 | Tool Directory                          | Description                                                                         | Status |
-| -------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- | ------ |
-| `imgconv-expert`           | `.agent/skills/imgconv-expert/tool`     |                                                                                     | Active |
-| `literature-search-expert` | (Meta-skill)                            | 资深文献计量学专家与智能检索系统，专门用于学术扫盲、方法论筛选及高置信度证据合成... | Active |
-| `mcp-builder-expert`       | (Meta-skill)                            | Guide for creating high-quality MCP (Mod...                                         | Active |
-| `news-aggregator-expert`   | `.agent/skills/news-aggre.../tool`      | Comprehensive news aggregator that fetch...                                         | Active |
-| `paper-audit-expert`       | `.agent/skills/paper-audit-expert/tool` | rigorous academic auditing workflow for ...                                         | Active |
-| `pdf-downloader-expert`    | `.agent/skills/pdf-downloa.../tool`     | PDF 链接下载与归档专家。自动化从 URL 提取并下载 PDF 文件到 pap...                   | Active |
-| `playwright-expert`        | `.agent/skills/playwright-expert/tool`  | Professional web testing and automation ...                                         | Active |
-| `tool-development-expert`  | (Meta-skill)                            | Meta-skill for standardizing AI creation...                                         | Active |
-| `yt-dlp-expert`            | `.agent/skills/yt-dlp-expert/tool`      | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。                | Active |
+| Skill Name | Tool Directory | Description | Status |
+|-----------|---------------|-------------|--------|
+| `anthropics-skills-expert` | `.agent/skills/anthropics-skills-expert/tool/` | Expert for browsing and porting skills f... | Active |
+| `clawdbot-integration-expert` | (Meta-skill) | Automated integration of systematic-skil... | Active |
+| `imgconv-expert` | `.agent/skills/imgconv-expert/tool/` | Professional image processing expert bas... | Active |
+| `literature-search-expert` | (Meta-skill) | 资深文献计量学专家与智能检索系统。 | Active |
+| `mcp-builder-expert` | (Meta-skill) | Guide for creating high-quality MCP (Mod... | Active |
+| `news-aggregator-expert` | `.agent/skills/news-aggregator-expert/tool/` | Comprehensive news aggregator that fetch... | Active |
+| `paper-audit-expert` | `.agent/skills/paper-audit-expert/tool/` |  | Active |
+| `pdf-downloader-expert` | `.agent/skills/pdf-downloader-expert/tool/` |  | Active |
+| `playwright-expert` | `.agent/skills/playwright-expert/tool/` | Professional web testing and automation ... | Active |
+| `tool-development-expert` | (Meta-skill) | Meta-skill for standardizing AI creation... | Active |
+| `vtt-recitation-expert` | (Meta-skill) | Converts VTT subtitle files into Obsidia... | Active |
+| `yt-dlp-expert` | `.agent/skills/yt-dlp-expert/tool/` | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。 | Active |
+
 
 ### Using Skills
 

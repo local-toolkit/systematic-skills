@@ -261,7 +261,7 @@ def main():
     print("✅ Discovery complete!")
     print()
     print("💡 Next steps:")
-    print("  1. Test skill routing: python agent.py \"test query\"")
+    print("  1. Test skill routing: python core/agent.py \"test query\"")
     print("  2. Check registry: cat .agent/skill_registry.json")
     print()
 

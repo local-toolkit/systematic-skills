@@ -33,17 +33,22 @@ Use the command: `python3 {tool}/agent_client.py "<user request>"`
 
 ## 3. Current Available Tools Mapping
 
-| Skill Name               | Tool Directory             | Description                                                                                                              | Status |
-| ------------------------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------ |
-| imgconv-expert           | tools/imgconv-tool         |                                                                                                                          | Active |
-| literature-search-expert | (Not Applicable)           | 璧勬繁鏂囩尞璁￠噺瀛︿笓瀹朵笌鏅鸿兘妫€绱㈢郴缁燂紝涓撻棬鐢ㄤ簬瀛︽湳鎵洸銆佹柟娉曡绛涢€夊強楂樼疆淇″害璇佹嵁鍚堟垚銆? | Active |
-| mcp-builder-expert       | (Not Applicable)           | Guide for creating high-quality MCP (Model Context...                                                                    | Active |
-| news-aggregator-expert   | tools/news-aggregator-tool | Comprehensive news aggregator that fetches, filter...                                                                    | Active |
-| paper-audit-expert       | tools/paper-audit-tool     | rigorous academic auditing workflow for research p...                                                                    | Active |
-| pdf-downloader-expert    | tools/pdf-downloader-tool  | PDF 閾炬帴涓嬭浇涓庡綊妗ｄ笓瀹躲€傝嚜鍔ㄥ寲浠?URL 鎻愬彇骞朵笅杞?PDF 鏂囦欢鍒?tools/paper_audit/i...                     | Active |
-| playwright-expert        | tools/playwright-tool      | Professional web testing and automation expert for...                                                                    | Active |
-| tool-development-expert  | (Not Applicable)           | Meta-skill for standardizing AI creation of new sk...                                                                    | Active |
-| yt-dlp-expert            | tools/yt-dlp-tool          | 宸ヤ笟绾у獟浣撴彁鍙栧崗璁€傚己鍒舵墽琛屼緷璧栨牎楠屼笌娴侀€夋嫨閫昏緫锛屾潨缁濇棤鏁堝弬鏁扮粍鍚堛€?                     | Active |
+| Skill Name | Tool Directory | Description | Status |
+|-----------|---------------|-------------|--------|
+| anthropics-skills-expert | .agent/skills/anthropics-skills-expert/tool | Expert for browsing and porting skills from the of... | Active |
+| clawdbot-integration-expert | (Not Applicable) | Automated integration of systematic-skills into Cl... | Active |
+| imgconv-expert | .agent/skills/imgconv-expert/tool | Professional image processing expert based on suns... | Active |
+| literature-search-expert | (Not Applicable) | 资深文献计量学专家与智能检索系统。 | Active |
+| mcp-builder-expert | (Not Applicable) | Guide for creating high-quality MCP (Model Context... | Active |
+| news-aggregator-expert | .agent/skills/news-aggregator-expert/tool | Comprehensive news aggregator that fetches, filter... | Active |
+| paper-audit-expert | .agent/skills/paper-audit-expert/tool |  | Active |
+| pdf-downloader-expert | .agent/skills/pdf-downloader-expert/tool |  | Active |
+| playwright-expert | .agent/skills/playwright-expert/tool | Professional web testing and automation expert for... | Active |
+| tool-development-expert | (Not Applicable) | Meta-skill for standardizing AI creation of new sk... | Active |
+| vtt-recitation-expert | .agent/skills/vtt-recitation-expert/scripts | Converts VTT subtitle files into Obsidian-friendly... | Active |
+| yt-dlp-expert | .agent/skills/yt-dlp-expert/tool | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。 | Active |
+
+
 
 ## 4. Tool Execution Standards
 

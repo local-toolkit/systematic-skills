@@ -199,7 +199,7 @@ def handle_remote_fallback(manager: SkillManager, query: str):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python agent.py \"your query\"")
+        print("Usage: python core/agent.py \"your query\"")
         sys.exit(1)
     
     query = " ".join(sys.argv[1:])

@@ -2,26 +2,94 @@
 <svg width="1000" height="1400" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
-      .box { fill: #f8f9fa; stroke: #343a40; stroke-width: 2px; rx: 8; }
-      .arrow { stroke: #4a90e2; stroke-width: 2px; fill: none; marker-end: url(#arrowhead); }
-      .arrow-dashed { stroke: #adb5bd; stroke-width: 2px; fill: none; marker-end: url(#arrowhead-dashed); stroke-dasharray: 5,5; }
-      .text-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: bold; fill: #212529; }
-      .text-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; fill: #495057; }
-      .text-file { font-family: 'Consolas', monospace; font-size: 11px; fill: #0066cc; }
-      .badge { font-family: 'Segoe UI', Arial, sans-serif; font-size: 9px; fill: white; }
-      .badge-exe { fill: #28a745; }
-      .badge-meta { fill: #6c757d; }
-      .badge-doc { fill: #fd7e14; }
-      .number { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: bold; fill: #4a90e2; }
-      .user-input { fill: #e3f2fd; stroke: #2196f3; }
-      .doc-box { fill: #fff3cd; stroke: #ffc107; stroke-width: 2px; }
-      .code-box { fill: #d1ecf1; stroke: #0dcaf0; stroke-width: 2px; }
+      .box {
+        fill: #f8f9fa;
+        stroke: #343a40;
+        stroke-width: 2px;
+        rx: 8;
+      }
+
+      .arrow {
+        stroke: #4a90e2;
+        stroke-width: 2px;
+        fill: none;
+        marker-end: url(#arrowhead);
+      }
+
+      .arrow-dashed {
+        stroke: #adb5bd;
+        stroke-width: 2px;
+        fill: none;
+        marker-end: url(#arrowhead-dashed);
+        stroke-dasharray: 5, 5;
+      }
+
+      .text-title {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 13px;
+        font-weight: bold;
+        fill: #212529;
+      }
+
+      .text-desc {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 10px;
+        fill: #495057;
+      }
+
+      .text-file {
+        font-family: 'Consolas', monospace;
+        font-size: 11px;
+        fill: #0066cc;
+      }
+
+      .badge {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 9px;
+        fill: white;
+      }
+
+      .badge-exe {
+        fill: #28a745;
+      }
+
+      .badge-meta {
+        fill: #6c757d;
+      }
+
+      .badge-doc {
+        fill: #fd7e14;
+      }
+
+      .number {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 15px;
+        font-weight: bold;
+        fill: #4a90e2;
+      }
+
+      .user-input {
+        fill: #e3f2fd;
+        stroke: #2196f3;
+      }
+
+      .doc-box {
+        fill: #fff3cd;
+        stroke: #ffc107;
+        stroke-width: 2px;
+      }
+
+      .code-box {
+        fill: #d1ecf1;
+        stroke: #0dcaf0;
+        stroke-width: 2px;
+      }
     </style>
     <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-      <polygon points="0 0, 10 5, 0 10" fill="#4a90e2"/>
+      <polygon points="0 0, 10 5, 0 10" fill="#4a90e2" />
     </marker>
     <marker id="arrowhead-dashed" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-      <polygon points="0 0, 10 5, 0 10" fill="#adb5bd"/>
+      <polygon points="0 0, 10 5, 0 10" fill="#adb5bd" />
     </marker>
   </defs>
 
@@ -30,160 +98,164 @@
   </text>
 
   <!-- PHASE 1: ENTRY -->
-  <rect x="40" y="50" width="120" height="30" class="badge badge-doc" rx="4"/>
+  <rect x="40" y="50" width="120" height="30" class="badge badge-doc" rx="4" />
   <text x="100" y="70" text-anchor="middle" class="badge">PHASE 1: ENTRY</text>
 
   <!-- Step 0: User Input -->
-  <rect x="350" y="50" width="300" height="45" class="box user-input"/>
+  <rect x="350" y="50" width="300" height="45" class="box user-input" />
   <text x="500" y="70" text-anchor="middle" class="text-title">User Prompt</text>
   <text x="500" y="88" text-anchor="middle" class="text-file">"查看一下新闻"</text>
   <text x="340" y="80" class="number">0</text>
 
   <!-- Step 1: agent.py -->
-  <rect x="350" y="115" width="300" height="65" class="box code-box"/>
-  <text x="500" y="138" text-anchor="middle" class="text-title">agent.py</text>
+  <rect x="350" y="115" width="300" height="65" class="box code-box" />
+  <text x="500" y="138" text-anchor="middle" class="text-title">core/agent.py</text>
   <text x="500" y="158" text-anchor="middle" class="text-desc">Unified Entry Point (Python)</text>
-  <text x="500" y="173" text-anchor="middle" class="text-file">agent.py:257 - main()</text>
+  <text x="500" y="173" text-anchor="middle" class="text-file">core/agent.py:200 - main()</text>
   <text x="340" y="150" class="number">1</text>
 
-  <path d="M 500 95 L 500 115" class="arrow"/>
+  <path d="M 500 95 L 500 115" class="arrow" />
 
   <!-- Step 2: AGENT_INSTRUCTIONS.md -->
-  <rect x="700" y="115" width="260" height="65" class="box doc-box"/>
+  <rect x="700" y="115" width="260" height="65" class="box doc-box" />
   <text x="830" y="138" text-anchor="middle" class="text-title">AGENT_INSTRUCTIONS.md</text>
   <text x="830" y="158" text-anchor="middle" class="text-desc">AI Agent usage guide</text>
   <text x="830" y="173" text-anchor="middle" class="text-file">AGENT_INSTRUCTIONS.md</text>
   <text x="690" y="150" class="number">2</text>
 
-  <path d="M 650 147 L 700 147" class="arrow-dashed"/>
+  <path d="M 650 147 L 700 147" class="arrow-dashed" />
 
   <!-- PHASE 2: DISCOVERY -->
-  <rect x="40" y="200" width="150" height="30" class="badge badge-doc" rx="4"/>
+  <rect x="40" y="200" width="150" height="30" class="badge badge-doc" rx="4" />
   <text x="115" y="220" text-anchor="middle" class="badge">PHASE 2: DISCOVERY</text>
 
   <!-- Step 3: skill_registry.json -->
-  <rect x="350" y="195" width="300" height="60" class="box code-box"/>
+  <rect x="350" y="195" width="300" height="60" class="box code-box" />
   <text x="500" y="217" text-anchor="middle" class="text-title">Load Skill Registry</text>
   <text x="500" y="237" text-anchor="middle" class="text-desc">Discover all available skills</text>
   <text x="500" y="252" text-anchor="middle" class="text-file">.agent/skill_registry.json</text>
   <text x="340" y="227" class="number">3</text>
 
-  <path d="M 500 180 L 500 195" class="arrow"/>
+  <path d="M 500 180 L 500 195" class="arrow" />
 
   <!-- Step 4: AGENTS.md -->
-  <rect x="700" y="195" width="260" height="60" class="box doc-box"/>
+  <rect x="700" y="195" width="260" height="60" class="box doc-box" />
   <text x="830" y="217" text-anchor="middle" class="text-title">AGENTS.md</text>
   <text x="830" y="237" text-anchor="middle" class="text-desc">Developer reference</text>
   <text x="830" y="252" text-anchor="middle" class="text-file">AGENTS.md</text>
   <text x="690" y="227" class="number">4</text>
 
-  <path d="M 650 225 L 700 225" class="arrow-dashed"/>
+  <path d="M 650 225 L 700 225" class="arrow-dashed" />
 
   <!-- PHASE 3: SELECTION -->
-  <rect x="40" y="280" width="140" height="30" class="badge badge-doc" rx="4"/>
+  <rect x="40" y="280" width="140" height="30" class="badge badge-doc" rx="4" />
   <text x="110" y="300" text-anchor="middle" class="badge">PHASE 3: SELECTION</text>
 
   <!-- Step 5: AI Skill Selection -->
-  <rect x="350" y="275" width="300" height="70" class="box" style="fill: #fff3cd;"/>
+  <rect x="350" y="275" width="300" height="70" class="box" style="fill: #fff3cd;" />
   <text x="500" y="300" text-anchor="middle" class="text-title">AI Skill Selection</text>
   <text x="500" y="320" text-anchor="middle" class="text-desc">Analyze query, match skill</text>
-  <text x="500" y="338" text-anchor="middle" class="text-file">select_skill() - agent.py:20</text>
+  <text x="500" y="338" text-anchor="middle" class="text-file">select_skill() - core/agent.py:13</text>
   <text x="340" y="315" class="number">5</text>
 
-  <path d="M 500 255 L 500 275" class="arrow"/>
+  <path d="M 500 255 L 500 275" class="arrow" />
 
   <!-- Decision Box -->
-  <rect x="310" y="365" width="380" height="55" class="box" style="fill: #e8f5e9;"/>
+  <rect x="310" y="365" width="380" height="55" class="box" style="fill: #e8f5e9;" />
   <text x="500" y="388" text-anchor="middle" class="text-title">Selected: news-aggregator-expert</text>
   <text x="500" y="408" text-anchor="middle" class="text-desc">Type: execution -&gt; route to tool</text>
-  <rect x="470" y="412" width="60" height="18" class="badge badge-exe" rx="4"/>
+  <rect x="470" y="412" width="60" height="18" class="badge badge-exe" rx="4" />
   <text x="500" y="425" text-anchor="middle" class="badge">EXECUTION</text>
 
-  <path d="M 500 345 L 500 365" class="arrow"/>
+  <path d="M 500 345 L 500 365" class="arrow" />
 
   <!-- PHASE 4: ROUTING -->
-  <rect x="40" y="440" width="140" height="30" class="badge badge-doc" rx="4"/>
+  <rect x="40" y="440" width="140" height="30" class="badge badge-doc" rx="4" />
   <text x="110" y="460" text-anchor="middle" class="badge">PHASE 4: ROUTING</text>
 
   <!-- Step 6: SKILL.md -->
-  <rect x="320" y="455" width="270" height="65" class="box doc-box"/>
+  <rect x="320" y="455" width="270" height="65" class="box doc-box" />
   <text x="455" y="478" text-anchor="middle" class="text-title">Read Skill Definition</text>
   <text x="455" y="498" text-anchor="middle" class="text-desc">Load skill knowledge base</text>
-  <text x="455" y="513" text-anchor="middle" class="text-file">news-aggregator-expert/SKILL.md</text>
+  <text x="455" y="513" text-anchor="middle" class="text-file">.agent/skills/news-aggregator-expert/SKILL.md</text>
   <text x="310" y="490" class="number">6</text>
 
   <!-- Step 7: agent_client.py -->
-  <rect x="610" y="455" width="270" height="65" class="box code-box"/>
+  <rect x="610" y="455" width="270" height="65" class="box code-box" />
   <text x="745" y="478" text-anchor="middle" class="text-title">Tool Entry Point</text>
   <text x="745" y="498" text-anchor="middle" class="text-desc">Execute via subprocess</text>
-  <text x="745" y="513" text-anchor="middle" class="text-file">news-aggregator-tool/agent_client.py</text>
+  <text x="745" y="513" text-anchor="middle"
+    class="text-file">.agent/skills/news-aggregator-expert/tool/agent_client.py</text>
   <text x="600" y="490" class="number">7</text>
 
-  <path d="M 500 420 L 500 440 L 455 440 L 455 455" class="arrow"/>
-  <path d="M 500 420 L 500 440 L 745 440 L 745 455" class="arrow"/>
+  <path d="M 500 420 L 500 440 L 455 440 L 455 455" class="arrow" />
+  <path d="M 500 420 L 500 440 L 745 440 L 745 455" class="arrow" />
 
   <!-- PHASE 5: EXECUTION -->
-  <rect x="40" y="545" width="140" height="30" class="badge badge-doc" rx="4"/>
+  <rect x="40" y="545" width="140" height="30" class="badge badge-doc" rx="4" />
   <text x="110" y="565" text-anchor="middle" class="badge">PHASE 5: EXECUTION</text>
 
   <!-- Step 8: main.py -->
-  <rect x="350" y="555" width="300" height="70" class="box code-box"/>
+  <rect x="350" y="555" width="300" height="70" class="box code-box" />
   <text x="500" y="580" text-anchor="middle" class="text-title">Core Logic Execution</text>
   <text x="500" y="600" text-anchor="middle" class="text-desc">Parse request, fetch news</text>
-  <text x="500" y="618" text-anchor="middle" class="text-file">news-aggregator-tool/main.py</text>
+  <text x="500" y="618" text-anchor="middle" class="text-file">.agent/skills/news-aggregator-expert/tool/main.py</text>
   <text x="340" y="595" class="number">8</text>
 
-  <path d="M 455 520 L 455 540 L 500 540 L 500 555" class="arrow"/>
-  <path d="M 745 520 L 745 540 L 500 540 L 500 555" class="arrow"/>
+  <path d="M 455 520 L 455 540 L 500 540 L 500 555" class="arrow" />
+  <path d="M 745 520 L 745 540 L 500 540 L 500 555" class="arrow" />
 
   <!-- Step 9: templates.md (optional) -->
-  <rect x="350" y="650" width="300" height="65" class="box doc-box" style="fill: #f8f9fa;"/>
+  <rect x="350" y="650" width="300" height="65" class="box doc-box" style="fill: #f8f9fa;" />
   <text x="500" y="673" text-anchor="middle" class="text-title">Load Templates (Optional)</text>
   <text x="500" y="693" text-anchor="middle" class="text-desc">If menu/help requested</text>
-  <text x="500" y="708" text-anchor="middle" class="text-file">news-aggregator-tool/templates.md</text>
+  <text x="500" y="708" text-anchor="middle"
+    class="text-file">.agent/skills/news-aggregator-expert/tool/templates.md</text>
   <text x="340" y="690" class="number">9</text>
 
-  <path d="M 500 625 L 500 650" class="arrow-dashed"/>
+  <path d="M 500 625 L 500 650" class="arrow-dashed" />
 
   <!-- PHASE 6: OUTPUT -->
-  <rect x="40" y="745" width="140" height="30" class="badge badge-doc" rx="4"/>
+  <rect x="40" y="745" width="140" height="30" class="badge badge-doc" rx="4" />
   <text x="110" y="765" text-anchor="middle" class="badge">PHASE 6: OUTPUT</text>
 
   <!-- Step 10: Return Result -->
-  <rect x="350" y="750" width="300" height="70" class="box" style="fill: #d1ecf1;"/>
+  <rect x="350" y="750" width="300" height="70" class="box" style="fill: #d1ecf1;" />
   <text x="500" y="775" text-anchor="middle" class="text-title">Return Result</text>
   <text x="500" y="795" text-anchor="middle" class="text-desc">JSON output to user</text>
   <text x="500" y="813" text-anchor="middle" class="text-file">stdout -&gt; OpenCode</text>
   <text x="340" y="790" class="number">10</text>
 
-  <path d="M 500 715 L 500 750" class="arrow"/>
+  <path d="M 500 715 L 500 750" class="arrow" />
 
   <!-- LEGEND -->
-  <rect x="30" y="850" width="940" height="480" class="box" style="fill: #f8f9fa; stroke: #dee2e6;"/>
-  <text x="500" y="875" text-anchor="middle" class="text-title" style="font-size: 15px;">Complete File Access Order and Documentation Guide</text>
+  <rect x="30" y="850" width="940" height="480" class="box" style="fill: #f8f9fa; stroke: #dee2e6;" />
+  <text x="500" y="875" text-anchor="middle" class="text-title" style="font-size: 15px;">Complete File Access Order and
+    Documentation Guide</text>
 
   <text x="50" y="905" class="text-title" style="font-size: 13px; font-weight: bold;">File Access Sequence:</text>
   <text x="70" y="925" class="text-file" style="font-weight: bold;">Required Files (Solid Arrows):</text>
-  <text x="70" y="945" class="text-file">1. agent.py</text>
+  <text x="70" y="945" class="text-file">1. core/agent.py</text>
   <text x="70" y="965" class="text-file">3. .agent/skill_registry.json</text>
   <text x="70" y="985" class="text-file">6. .agent/skills/news-aggregator-expert/SKILL.md</text>
-  <text x="70" y="1005" class="text-file">7. news-aggregator-tool/agent_client.py</text>
-  <text x="70" y="1025" class="text-file">8. news-aggregator-tool/main.py</text>
+  <text x="70" y="1005" class="text-file">7. .agent/skills/news-aggregator-expert/tool/agent_client.py</text>
+  <text x="70" y="1025" class="text-file">8. .agent/skills/news-aggregator-expert/tool/main.py</text>
 
   <text x="500" y="925" class="text-file" style="font-weight: bold;">Optional Files (Dashed Arrows):</text>
   <text x="500" y="945" class="text-file">2. AGENT_INSTRUCTIONS.md (AI reference)</text>
   <text x="500" y="965" class="text-file">4. AGENTS.md (Developer reference)</text>
-  <text x="70" y="1055" class="text-file">9. news-aggregator-tool/templates.md (if menu needed)</text>
+  <text x="70" y="1055" class="text-file">9. .agent/skills/news-aggregator-expert/tool/templates.md (if menu
+    needed)</text>
 
   <text x="50" y="1100" class="text-title" style="font-size: 13px; font-weight: bold;">File Types:</text>
 
-  <rect x="70" y="1115" width="15" height="15" class="badge badge-exe" rx="2"/>
+  <rect x="70" y="1115" width="15" height="15" class="badge badge-exe" rx="2" />
   <text x="95" y="1128" class="text-desc">Python Executable (Code)</text>
 
-  <rect x="250" y="1115" width="15" height="15" class="badge badge-meta" rx="2"/>
+  <rect x="250" y="1115" width="15" height="15" class="badge badge-meta" rx="2" />
   <text x="275" y="1128" class="text-desc">Skill Type Badge</text>
 
-  <rect x="430" y="1115" width="15" height="15" class="badge badge-doc" rx="2"/>
+  <rect x="430" y="1115" width="15" height="15" class="badge badge-doc" rx="2" />
   <text x="455" y="1128" class="text-desc">Documentation (Markdown)</text>
 
   <text x="50" y="1170" class="text-title" style="font-size: 13px; font-weight: bold;">Documentation Roles:</text>
@@ -199,10 +271,10 @@
   <text x="500" y="1245" class="text-desc">Content: Build commands, code style, config</text>
 
   <text x="50" y="1290" class="text-title" style="font-size: 13px; font-weight: bold;">Arrow Types:</text>
-  <line x1="70" y1="1305" x2="200" y2="1305" class="arrow"/>
+  <line x1="70" y1="1305" x2="200" y2="1305" class="arrow" />
   <text x="210" y="1310" class="text-desc">Solid = Required (every request)</text>
 
-  <line x1="400" y1="1305" x2="530" y2="1305" class="arrow-dashed"/>
+  <line x1="400" y1="1305" x2="530" y2="1305" class="arrow-dashed" />
   <text x="540" y="1310" class="text-desc">Dashed = Optional (reference only)</text>
 
 </svg>
