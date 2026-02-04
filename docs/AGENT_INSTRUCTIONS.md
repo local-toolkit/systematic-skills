@@ -34,20 +34,22 @@ Or directly: `python3 .agent/skills/{name}-expert/tool/agent_client.py "<user re
 
 ## 3. Current Available Tools Mapping
 
-| Skill Name                  | Tool Directory                              | Description                                                          | Status |
-| --------------------------- | ------------------------------------------- | -------------------------------------------------------------------- | ------ |
-| anthropics-skills-expert    | .agent/skills/anthropics-skills-expert/tool | Expert for browsing and porting skills from the of...                | Active |
-| clawdbot-integration-expert | (Not Applicable)                            | Automated integration of systematic-skills into Cl...                | Active |
-| imgconv-expert              | .agent/skills/imgconv-expert/tool           | Professional image processing expert based on suns...                | Active |
-| literature-search-expert    | (Not Applicable)                            | 资深文献计量学专家与智能检索系统。                                   | Active |
-| mcp-builder-expert          | (Not Applicable)                            | Guide for creating high-quality MCP (Model Context...                | Active |
-| news-aggregator-expert      | .agent/skills/news-aggregator-expert/tool   | Comprehensive news aggregator that fetches, filter...                | Active |
-| paper-audit-expert          | .agent/skills/paper-audit-expert/tool       | Rigorous academic auditing workflow (Stanford 3-Pa...                | Active |
-| pdf-downloader-expert       | .agent/skills/pdf-downloader-expert/tool    | PDF Link Downloader and Archiving Expert. Automati...                | Active |
-| playwright-expert           | .agent/skills/playwright-expert/tool        | Professional web testing and automation expert for...                | Active |
-| tool-development-expert     | (Not Applicable)                            | Meta-skill for standardizing AI creation of new sk...                | Active |
-| vtt-recitation-expert       | .agent/skills/vtt-recitation-expert/scripts | Converts VTT subtitle files into Obsidian-friendly...                | Active |
-| yt-dlp-expert               | .agent/skills/yt-dlp-expert/tool            | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。 | Active |
+| Skill Name | Tool Directory | Description | Status |
+|-----------|---------------|-------------|--------|
+| anthropics-skills-expert | .agent/skills/anthropics-skills-expert/tool | Expert for browsing and porting skills from the of... | Active |
+| clawdbot-integration-expert | (Not Applicable) | Automated integration of systematic-skills into Cl... | Active |
+| frontend-design-expert | (Not Applicable) | Create distinctive, production-grade frontend inte... | Active |
+| imgconv-expert | .agent/skills/imgconv-expert/tool | Professional image processing expert based on suns... | Active |
+| literature-search-expert | (Not Applicable) | 资深文献计量学专家与智能检索系统。 | Active |
+| mcp-builder-expert | (Not Applicable) | Guide for creating high-quality MCP (Model Context... | Active |
+| news-aggregator-expert | .agent/skills/news-aggregator-expert/tool | Comprehensive news aggregator that fetches, filter... | Active |
+| paper-audit-expert | .agent/skills/paper-audit-expert/tool | Rigorous academic auditing workflow (Stanford 3-Pa... | Active |
+| pdf-downloader-expert | .agent/skills/pdf-downloader-expert/tool | PDF Link Downloader and Archiving Expert. Automati... | Active |
+| playwright-expert | .agent/skills/playwright-expert/tool | Professional web testing and automation expert for... | Active |
+| tool-development-expert | (Not Applicable) | Meta-skill for standardizing AI creation of new sk... | Active |
+| vtt-recitation-expert | .agent/skills/vtt-recitation-expert/scripts | Converts VTT subtitle files into Obsidian-friendly... | Active |
+| yt-dlp-expert | .agent/skills/yt-dlp-expert/tool | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。 | Active |
+
 
 ## 4. Tool Execution Standards
 

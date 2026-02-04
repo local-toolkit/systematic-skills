@@ -28,6 +28,20 @@
     "is_external": false
   },
   {
+    "name": "frontend-design-expert",
+    "function_name": "frontend-design-expert",
+    "tool_dir": null,
+    "type": "meta",
+    "integration": "meta",
+    "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.",
+    "status": "active",
+    "path": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/frontend-design-expert",
+    "skill_md": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/frontend-design-expert/SKILL.md",
+    "has_main": false,
+    "has_mcp_server": false,
+    "is_external": false
+  },
+  {
     "name": "imgconv-expert",
     "function_name": "imgconv-expert",
     "tool_dir": ".agent/skills/imgconv-expert/tool",
@@ -61,7 +75,7 @@
     "tool_dir": null,
     "type": "meta",
     "integration": "meta",
-    "description": "Guide for creating high-quality MCP (Model Context Protocol) servers.",
+    "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
     "status": "active",
     "path": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/mcp-builder-expert",
     "skill_md": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/mcp-builder-expert/SKILL.md",
