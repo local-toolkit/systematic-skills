@@ -106,18 +106,20 @@ def discover_skills() -> List[Dict]:
         tool_type = "meta"
 
         try:
-            with open(skill_md, 'r', encoding='utf-8') as f:
+            with open(skill_md, 'r', encoding='utf-8-sig') as f:
                 content = f.read()
-                # Extract frontmatter
+                # Extract frontmatter (more robustly)
                 if content.startswith('---'):
-                    lines = content.split('\n')
-                    for line in lines[1:]:
-                        if line.startswith('name:'):
-                            function_name = line.split(':')[1].strip().strip('"')
-                        elif line.startswith('description:'):
-                            description = line.split(':', 1)[1].strip().strip('"')
-                        elif line == '---':
-                            break
+                    parts = content.split('---', 2)
+                    if len(parts) >= 3:
+                        frontmatter = parts[1]
+                        for line in frontmatter.splitlines():
+                            line = line.strip()
+                            if not line: continue
+                            if line.startswith('name:'):
+                                function_name = line.split(':', 1)[1].strip().strip('"').strip("'")
+                            elif line.startswith('description:'):
+                                description = line.split(':', 1)[1].strip().strip('"').strip("'")
         except Exception as e:
             print(f"⚠️  Warning reading {skill_name}: {e}")
 

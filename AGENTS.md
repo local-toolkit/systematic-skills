@@ -205,12 +205,13 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 | `literature-search-expert` | (Meta-skill) | 资深文献计量学专家与智能检索系统。 | Active |
 | `mcp-builder-expert` | (Meta-skill) | Guide for creating high-quality MCP (Mod... | Active |
 | `news-aggregator-expert` | `.agent/skills/news-aggregator-expert/tool/` | Comprehensive news aggregator that fetch... | Active |
-| `paper-audit-expert` | `.agent/skills/paper-audit-expert/tool/` |  | Active |
-| `pdf-downloader-expert` | `.agent/skills/pdf-downloader-expert/tool/` |  | Active |
+| `paper-audit-expert` | `.agent/skills/paper-audit-expert/tool/` | Rigorous academic auditing workflow (Sta... | Active |
+| `pdf-downloader-expert` | `.agent/skills/pdf-downloader-expert/tool/` | PDF Link Downloader and Archiving Expert... | Active |
 | `playwright-expert` | `.agent/skills/playwright-expert/tool/` | Professional web testing and automation ... | Active |
 | `tool-development-expert` | (Meta-skill) | Meta-skill for standardizing AI creation... | Active |
 | `vtt-recitation-expert` | (Meta-skill) | Converts VTT subtitle files into Obsidia... | Active |
 | `yt-dlp-expert` | `.agent/skills/yt-dlp-expert/tool/` | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。 | Active |
+
 
 
 ### Using Skills
