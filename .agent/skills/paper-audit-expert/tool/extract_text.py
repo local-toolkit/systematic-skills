@@ -2,8 +2,16 @@ import fitz
 import sys
 import os
 
-pdf_path = "/Users/xujintao/Documents/workspace/systematic-skills/tools/paper_audit/inbox/IncogniText: Privacy-enhancing Conditional Text Anonymization via LLM-based Private Attribute Randomization.pdf"
-output_path = "extracted_text.txt"
+if len(sys.argv) < 2:
+    print("Usage: python3 extract_text.py <pdf_path> [output_path]")
+    sys.exit(1)
+
+pdf_path = sys.argv[1]
+output_path = sys.argv[2] if len(sys.argv) > 2 else "extracted_text.txt"
+
+if not os.path.exists(pdf_path):
+    print(f"Error: File not found: {pdf_path}")
+    sys.exit(1)
 
 try:
     doc = fitz.open(pdf_path)

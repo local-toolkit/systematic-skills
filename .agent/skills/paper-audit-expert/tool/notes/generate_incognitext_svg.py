@@ -5,9 +5,25 @@ Uses AcademicSVG engine for high-quality academic visualization.
 """
 
 import sys
-sys.path.insert(0, '/Users/xujintao/Documents/workspace/systematic-skills/tools/paper-audit-tool')
+import os
+from pathlib import Path
 
-from academic_svg import AcademicSVG
+# Add tool directory to path to find academic_svg
+current_dir = Path(__file__).resolve().parent
+tool_dir = current_dir.parent
+if str(tool_dir) not in sys.path:
+    sys.path.insert(0, str(tool_dir))
+
+try:
+    from academic_svg import AcademicSVG
+except ImportError:
+    # Fallback for direct execution
+    sys.path.append(str(tool_dir.parent / "paper-audit-tool"))
+    try:
+        from academic_svg import AcademicSVG
+    except ImportError:
+        print("Error: Could not import academic_svg. Please ensure you are running this from the skill directory or have set up the path correctly.")
+        sys.exit(1)
 
 # Create SVG canvas
 svg = AcademicSVG(width=1100, height=650, title="IncogniText: 隐私增强条件文本匿名化系统架构")
@@ -78,6 +94,6 @@ svg.add_arrow([(730, 340), (788, 150)], color="#4caf50", width="2.5")
 svg.add_arrow([(760, 425), (808, 450)], color="#4caf50", width="2")
 
 # Save SVG
-output_path = "/Users/xujintao/Documents/workspace/systematic-skills/tools/paper_audit/notes/IncogniText_architecture.svg"
-svg.save(output_path)
+output_path = current_dir / "IncogniText_architecture.svg"
+svg.save(str(output_path))
 print(f"SVG saved to: {output_path}")

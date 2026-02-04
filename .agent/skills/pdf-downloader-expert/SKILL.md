@@ -1,6 +1,6 @@
 ﻿---
 name: pdf-downloader
-description: "PDF 閾炬帴涓嬭浇涓庡綊妗ｄ笓瀹躲€傝嚜鍔ㄥ寲浠?URL 鎻愬彇骞朵笅杞?PDF 鏂囦欢鍒?tools/paper_audit/inbox銆?
+description: "PDF Link Downloader and Archiving Expert. Automatically extracts and downloads PDF files from URLs to tools/paper_audit/inbox."
 status: active
 type: execution
 ---

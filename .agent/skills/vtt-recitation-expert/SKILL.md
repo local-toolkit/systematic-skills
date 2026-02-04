@@ -21,7 +21,7 @@ This skill converts video subtitle files (`.vtt`) into a clean, formatted Markdo
 To convert a file, execute the python script with the absolute path to the `.vtt` file.
 
 ```bash
-python3 /Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/vtt-recitation-expert/scripts/vtt_to_md.py "<ABSOLUTE_PATH_TO_VTT_FILE>"
+python3 .agent/skills/vtt-recitation-expert/scripts/vtt_to_md.py "<ABSOLUTE_PATH_TO_VTT_FILE>"
 ```
 
 ### Examples
@@ -29,7 +29,7 @@ python3 /Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/vtt-
 **Convert a single file:**
 
 ```bash
-python3 /Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/vtt-recitation-expert/scripts/vtt_to_md.py "/Users/xujintao/Downloads/video.en.vtt"
+python3 .agent/skills/vtt-recitation-expert/scripts/vtt_to_md.py "~/Downloads/video.en.vtt"
 ```
 
 The tool will generate a new file in the same directory ending with `_obsidian.md`.

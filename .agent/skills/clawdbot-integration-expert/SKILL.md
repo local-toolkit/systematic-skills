@@ -20,13 +20,14 @@ Run the following commands to integrate all skills:
 mkdir -p ~/clawd/skills
 
 # 2. Link all skills
-for skill in /Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/*-expert; do
+# 2. Link all skills
+REPO_ROOT="$(pwd)"
+for skill in "$REPO_ROOT"/.agent/skills/*-expert; do
   skill_name=$(basename "$skill")
   ln -sf "$skill" ~/clawd/skills/"$skill_name"
 done
 
-# 3. Link tools directory
-ln -sf /Users/xujintao/Documents/workspace/systematic-skills/tools ~/clawd/tools
+
 
 # 4. Restart gateway
 clawdbot gateway restart
@@ -71,7 +72,7 @@ Try these in Clawdbot chat:
 
 **Issue**: "no implementation found"
 
-- **Fix**: Ensure `~/clawd/tools` symlink exists
+- **Fix**: Ensure skills are linked correctly in `~/clawd/skills`
 
 **Issue**: Skills not listed
 

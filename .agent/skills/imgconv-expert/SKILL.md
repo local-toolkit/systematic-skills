@@ -1,3 +1,11 @@
+---
+name: imgconv-expert
+version: 1.0.0
+description: Professional image processing expert based on sunshineplan/imgconv Go library.
+status: active
+type: execution
+---
+
 # Image Conversion Expert
 
 ## Overview

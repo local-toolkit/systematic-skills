@@ -22,13 +22,13 @@ This manager skill allows you to explore and install skills directly from the of
 View the list of skills currently available in the repository.
 
 ```bash
-python3 /Users/xujintao/Documents/workspace/systematic-skills/tools/anthropics-skills-tool/agent_client.py list
+python3 .agent/skills/anthropics-skills-expert/tool/agent_client.py list
 ```
 
 ### 2. Search (Greppable)
 
 ```bash
-python3 /Users/xujintao/Documents/workspace/systematic-skills/tools/anthropics-skills-tool/agent_client.py list | grep "analysis"
+python3 .agent/skills/anthropics-skills-expert/tool/agent_client.py list | grep "analysis"
 ```
 
 ## Configuration
