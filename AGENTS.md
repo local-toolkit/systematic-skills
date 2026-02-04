@@ -30,15 +30,15 @@ pytest tests/ -k "test_name" -v   # Run tests matching pattern
 
 ```bash
 # yt-dlp-tool
-cd yt-dlp-tool && python agent_client.py "<query>"
+cd .agent/skills/yt-dlp-expert/tool && python agent_client.py "<query>"
 python main.py <url> [options]
 
 # news-aggregator-tool
-cd news-aggregator-tool && python agent_client.py "<query>"
+cd .agent/skills/news-aggregator-expert/tool && python agent_client.py "<query>"
 python main.py --source hackernews --limit 10 --keyword "AI" --deep
 
 # imgconv-tool
-cd imgconv-tool && python agent_client.py "<query>"
+cd .agent/skills/imgconv-expert/tool && python agent_client.py "<query>"
 python main.py --action convert --input image.png --output image.jpg --format jpeg
 
 # Backend standalone scripts
@@ -187,26 +187,27 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 .agent/
 ├── skills/
 │   ├── {skill-name}-expert/
-│   │   └── SKILL.md          # Expert knowledge and usage instructions
-│   ├── {skill-name}-expert/
-│   │   └── SKILL.md
+│   │   ├── SKILL.md          # Expert knowledge and usage instructions
+│   │   └── tool/             # Implementation code (scripts, main.py, etc.)
+│   │       ├── agent_client.py
+│   │       └── main.py
 │   └── ...
 └── task.md                   # Session tracking (if present)
 ```
 
 ### Skill-to-Tool Mapping
 
-| Skill Name                 | Tool Directory                | Description                                                                         | Status |
-| -------------------------- | ----------------------------- | ----------------------------------------------------------------------------------- | ------ |
-| `imgconv-expert`           | `tools/imgconv-tool/`         |                                                                                     | Active |
-| `literature-search-expert` | (Meta-skill)                  | 资深文献计量学专家与智能检索系统，专门用于学术扫盲、方法论筛选及高置信度证据合成... | Active |
-| `mcp-builder-expert`       | (Meta-skill)                  | Guide for creating high-quality MCP (Mod...                                         | Active |
-| `news-aggregator-expert`   | `tools/news-aggregator-tool/` | Comprehensive news aggregator that fetch...                                         | Active |
-| `paper-audit-expert`       | `tools/paper-audit-tool/`     | rigorous academic auditing workflow for ...                                         | Active |
-| `pdf-downloader-expert`    | `tools/pdf-downloader-tool/`  | PDF 链接下载与归档专家。自动化从 URL 提取并下载 PDF 文件到 pap...                   | Active |
-| `playwright-expert`        | `tools/playwright-tool/`      | Professional web testing and automation ...                                         | Active |
-| `tool-development-expert`  | (Meta-skill)                  | Meta-skill for standardizing AI creation...                                         | Active |
-| `yt-dlp-expert`            | `tools/yt-dlp-tool/`          | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。                | Active |
+| Skill Name                 | Tool Directory                          | Description                                                                         | Status |
+| -------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- | ------ |
+| `imgconv-expert`           | `.agent/skills/imgconv-expert/tool`     |                                                                                     | Active |
+| `literature-search-expert` | (Meta-skill)                            | 资深文献计量学专家与智能检索系统，专门用于学术扫盲、方法论筛选及高置信度证据合成... | Active |
+| `mcp-builder-expert`       | (Meta-skill)                            | Guide for creating high-quality MCP (Mod...                                         | Active |
+| `news-aggregator-expert`   | `.agent/skills/news-aggre.../tool`      | Comprehensive news aggregator that fetch...                                         | Active |
+| `paper-audit-expert`       | `.agent/skills/paper-audit-expert/tool` | rigorous academic auditing workflow for ...                                         | Active |
+| `pdf-downloader-expert`    | `.agent/skills/pdf-downloa.../tool`     | PDF 链接下载与归档专家。自动化从 URL 提取并下载 PDF 文件到 pap...                   | Active |
+| `playwright-expert`        | `.agent/skills/playwright-expert/tool`  | Professional web testing and automation ...                                         | Active |
+| `tool-development-expert`  | (Meta-skill)                            | Meta-skill for standardizing AI creation...                                         | Active |
+| `yt-dlp-expert`            | `.agent/skills/yt-dlp-expert/tool`      | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。                | Active |
 
 ### Using Skills
 

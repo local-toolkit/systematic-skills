@@ -1,8 +1,36 @@
 [
   {
+    "name": "anthropics-skills-expert",
+    "function_name": "anthropics-skills-expert",
+    "tool_dir": ".agent/skills/anthropics-skills-expert/tool",
+    "type": "execution",
+    "integration": "subprocess",
+    "description": "Expert for browsing and porting skills from the official Anthropics Skills repository.",
+    "status": "active",
+    "path": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/anthropics-skills-expert",
+    "skill_md": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/anthropics-skills-expert/SKILL.md",
+    "has_main": true,
+    "has_mcp_server": false,
+    "is_external": false
+  },
+  {
+    "name": "clawdbot-integration-expert",
+    "function_name": "clawdbot-integration-expert",
+    "tool_dir": null,
+    "type": "meta",
+    "integration": "meta",
+    "description": "Automated integration of systematic-skills into Clawdbot workspace. Handles symlink creation and gateway restart.",
+    "status": "active",
+    "path": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/clawdbot-integration-expert",
+    "skill_md": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/clawdbot-integration-expert/SKILL.md",
+    "has_main": false,
+    "has_mcp_server": false,
+    "is_external": false
+  },
+  {
     "name": "imgconv-expert",
     "function_name": "imgconv",
-    "tool_dir": "tools/imgconv-tool",
+    "tool_dir": ".agent/skills/imgconv-expert/tool",
     "type": "execution",
     "integration": "subprocess",
     "description": "",
@@ -44,7 +72,7 @@
   {
     "name": "news-aggregator-expert",
     "function_name": "news-aggregator",
-    "tool_dir": "tools/news-aggregator-tool",
+    "tool_dir": ".agent/skills/news-aggregator-expert/tool",
     "type": "execution",
     "integration": "subprocess",
     "description": "Comprehensive news aggregator that fetches, filters, and deeply analyzes real-time content from 8 major sources.",
@@ -58,7 +86,7 @@
   {
     "name": "paper-audit-expert",
     "function_name": "paper-audit",
-    "tool_dir": "tools/paper-audit-tool",
+    "tool_dir": ".agent/skills/paper-audit-expert/tool",
     "type": "execution",
     "integration": "subprocess",
     "description": "",
@@ -72,7 +100,7 @@
   {
     "name": "pdf-downloader-expert",
     "function_name": "pdf-downloader",
-    "tool_dir": "tools/pdf-downloader-tool",
+    "tool_dir": ".agent/skills/pdf-downloader-expert/tool",
     "type": "execution",
     "integration": "subprocess",
     "description": "",
@@ -86,7 +114,7 @@
   {
     "name": "playwright-expert",
     "function_name": "playwright",
-    "tool_dir": "tools/playwright-tool",
+    "tool_dir": ".agent/skills/playwright-expert/tool",
     "type": "execution",
     "integration": "mcp",
     "description": "Professional web testing and automation expert for Playwright framework. Specializes in browser automation, end-to-end testing, web scraping, and MCP server integration.",
@@ -112,9 +140,23 @@
     "is_external": false
   },
   {
+    "name": "vtt-recitation-expert",
+    "function_name": "vtt-recitation-expert",
+    "tool_dir": ".agent/skills/vtt-recitation-expert/scripts",
+    "type": "meta",
+    "integration": "meta",
+    "description": "Converts VTT subtitle files into Obsidian-friendly Markdown for recitation (with timestamps and segmentation).",
+    "status": "active",
+    "path": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/vtt-recitation-expert",
+    "skill_md": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/vtt-recitation-expert/SKILL.md",
+    "has_main": false,
+    "has_mcp_server": false,
+    "is_external": false
+  },
+  {
     "name": "yt-dlp-expert",
     "function_name": "yt-dlp",
-    "tool_dir": "tools/yt-dlp-tool",
+    "tool_dir": ".agent/skills/yt-dlp-expert/tool",
     "type": "execution",
     "integration": "subprocess",
     "description": "工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。",

@@ -122,18 +122,29 @@ def discover_skills() -> List[Dict]:
             print(f"⚠️  Warning reading {skill_name}: {e}")
 
         # Determine tool directory
-        tool_dir_guess = function_name + "-tool"
+        # New: Search for tool implementation inside the skill directory (Standard Agent Skills structure)
+        # We check 'tool' and 'scripts' subdirectories
+        tool_dir_in_skill = None
+        for sub in ["tool", "scripts"]:
+            if (skill_path / sub).exists():
+                tool_dir_in_skill = skill_path / sub
+                tool_dir_path_for_registry = f".agent/skills/{skill_name}/{sub}"
+                break
         
-        # New: Search for tool in the 'tools' subdirectory
-        tools_parent_dir = root_dir / "tools"
-        tool_path = tools_parent_dir / tool_dir_guess
-        
-        # Fallback to root for legacy or non-standard tools
-        if not tool_path.exists():
-            tool_path = root_dir / tool_dir_guess
-            tool_dir_path_for_registry = tool_dir_guess
+        if tool_dir_in_skill:
+            tool_path = tool_dir_in_skill
         else:
-            tool_dir_path_for_registry = f"tools/{tool_dir_guess}"
+            # Fallback to legacy root 'tools' directory (for backward compatibility during migration)
+            tool_dir_guess = function_name + "-tool"
+            tools_parent_dir = root_dir / "tools"
+            tool_path = tools_parent_dir / tool_dir_guess
+            
+            if not tool_path.exists():
+                # Fallback to root for very old tools
+                tool_path = root_dir / tool_dir_guess
+                tool_dir_path_for_registry = tool_dir_guess
+            else:
+                tool_dir_path_for_registry = f"tools/{tool_dir_guess}"
 
         # Detect integration type
         detection = detect_tool_type(tool_path)
@@ -171,7 +182,7 @@ def discover_skills() -> List[Dict]:
 
         print(f"{type_icon} {skill_name}")
         print(f"   Type: {integration}")
-        print(f"   Dir: {tool_dir_guess if tool_path.exists() else 'N/A'}")
+        print(f"   Dir: {tool_path.name if tool_path.exists() else 'N/A'}")
         print()
 
     return skills
