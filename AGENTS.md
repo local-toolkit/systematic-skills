@@ -205,6 +205,7 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 | `imgconv-expert` | `.agent/skills/imgconv-expert/tool/` | Professional image processing expert bas... | Active |
 | `literature-search-expert` | (Meta-skill) | 资深文献计量学专家与智能检索系统。 | Active |
 | `mcp-builder-expert` | (Meta-skill) | Guide for creating high-quality MCP (Mod... | Active |
+| `monty-expert` | `.agent/skills/monty-expert/tool/` | Secure Python interpreter for AI code execution with <1ms startup | Active |
 | `news-aggregator-expert` | `.agent/skills/news-aggregator-expert/tool/` | Comprehensive news aggregator that fetch... | Active |
 | `paper-audit-expert` | `.agent/skills/paper-audit-expert/tool/` | Rigorous academic auditing workflow (Sta... | Active |
 | `pdf-downloader-expert` | `.agent/skills/pdf-downloader-expert/tool/` | PDF Link Downloader and Archiving Expert... | Active |
@@ -263,27 +264,70 @@ def run_tool(**kwargs):
 
 ---
 
-#### Tool Type 2: MCP Server Tools
+#### Tool Type 3: Monty External Functions (NEW)
 
-**Best for:** Tools needing deep AI integration via MCP protocol
-**Examples:** playwright-tool
+**Best for:** AI code execution with multi-step data processing and complex logic
+**Examples:** monty-expert (this skill!)
+
+**Usage:**
+```python
+# List all available functions
+python .agent/skills/monty-expert/tool/main.py --list-external-funcs
+
+# Execute Python code with external functions
+python .agent/skills/monty-expert/tool/main.py --use-external-funcs --code '
+    news = fetch_news("hackernews", 10)
+    print(len(news))
+'
+```
+
+**Integration:** External functions from various skills can be called from Monty code, enabling AI to combine multiple tools in a single execution.
+
+**Key Features:**
+- Ultra-fast startup (<1μs)
+- Secure sandbox with restricted external access
+- Support for complex Python logic (loops, conditions, data structures)
+- State serialization for resumable operations
+
+**Characteristics:**
+- Have SKILL.md with expert knowledge
+- Have external_functions.py with function registry
+- Provide main.py or mcp_server.py for tool execution
+- Can be used via --use-external-funcs flag
 
 **Implementation:**
-
 ```python
-# In agent_client.py
-from mcp_client import create_mcp_client
-
-client = create_mcp_client(
-    server_path="mcp_server.py",
-    server_name="my-tool-mcp",
-    is_external=False
-)
-
-async def run_tool(action: str, **kwargs):
-    result = await client.call_tool(action, **kwargs)
-    return result
+# In external_functions.py
+@register_external_function("tool_function")
+def tool_function(param1: str) -> dict:
+    from pathlib import Path
+    import subprocess
+    import sys
+    import json
+    
+    tool_dir = Path(__file__).parent.parent.parent / "skill-name-expert" / "tool"
+    main_py = tool_dir / "main.py"
+    
+    cmd = [sys.executable, str(main_py)]
+    cmd.extend([...])
+    
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+    
+    if result.returncode != 0:
+        return {"error": result.stderr}
+    
+    return json.loads(result.stdout)
 ```
+
+---
+
+#### Tool Type 4: Meta Skills (Exempt from Monty Integration)
+
+**Not Required for Monty Integration:**
+- ❌ frontend-design-expert (UI/frontend only)
+- ❌ mcp-builder-expert (documentation only)
+- ❌ literature-search-expert (documentation only)
+- **MCP Integration Patterns** section above
 
 **Characteristics:**
 
@@ -342,3 +386,65 @@ client = create_mcp_client(
     server_name="my-tool-mcp"
 )
 ```
+
+---
+
+### Monty External Functions Integration
+
+#### Overview
+
+Monty provides a secure Python interpreter for AI code execution with <1ms startup. Skills can register external functions that Monty can call, enabling AI to combine multiple tools in a single execution.
+
+#### Integrated Skills Status
+
+| Skill Name | External Functions | Status | Functions Added |
+|-----------|-------------------|--------|-----------------|
+| `news-aggregator-expert` | fetch_news, fetch_hackernews, fetch_weibo, fetch_github_trending | ✅ Integrated | 4 |
+| `pdf-downloader-expert` | download_pdf, read_file, write_file | ✅ Integrated | 3 |
+| `imgconv-expert` | convert_image | ✅ Integrated | 1 |
+| `yt-dlp-expert` | download_video | ✅ Integrated | 1 |
+| `paper-audit-expert` | paper_audit_extract, paper_audit_analyze, paper_audit_visualize | ✅ Integrated | 3 |
+| `playwright-expert` | (MCP type - direct integration available) | ⏸️ Pending | N/A |
+| `anthropics-skills-expert` | (Meta-skill - exempt) | ⏭️ Exempt | N/A |
+
+**Total Integrated:** 15 external functions from 5 execution skills
+
+#### Usage Examples
+
+```bash
+# List all available external functions
+python .agent/skills/monty-expert/tool/main.py --list-external-funcs
+
+# Use news aggregator
+python .agent/skills/monty-expert/tool/main.py --use-external-funcs --code '
+    news = fetch_news("hackernews", 10, "AI")
+    for item in news:
+        print(item.get("title"))
+'
+
+# Combine multiple tools
+python .agent/skills/monty-expert/tool/main.py --use-external-funcs --code '
+    # Download PDF
+    pdf_path = download_pdf("https://arxiv.org/pdf/2301.xxxxx.pdf")
+    
+    # Extract and analyze
+    result = paper_audit_extract(pdf_path)
+    audit = paper_audit_analyze(result.get("content", ""))
+    
+    # Visualize
+    svg = paper_audit_visualize(audit)
+    print("Audit score:", audit.get("score"))
+'
+```
+
+#### Integration Requirements
+
+For new execution skills to integrate with Monty:
+
+1. Add external functions to `.agent/skills/monty-expert/tool/external_functions.py`
+2. Use `@register_external_function` decorator
+3. Call tools via subprocess or MCP client
+4. Return JSON-serializable results
+5. Handle errors gracefully with error dict format
+
+See `.agent/skills/tool-development-expert/SKILL.md` Section 3.3 for complete integration guidelines.

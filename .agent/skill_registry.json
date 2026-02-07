@@ -84,6 +84,20 @@
     "is_external": false
   },
   {
+    "name": "monty-expert",
+    "function_name": "monty-expert",
+    "tool_dir": ".agent/skills/monty-expert/tool",
+    "type": "execution",
+    "integration": "subprocess",
+    "description": "Python code execution interpreter with 29+ integrated external functions (news, PDF, image, video, paper audit, playwright, utility). Use for writing Python code, multi-step data processing, complex logic combining multiple APIs, calculations, data transformations, or when user needs programmatic control.",
+    "status": "active",
+    "path": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/monty-expert",
+    "skill_md": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/monty-expert/SKILL.md",
+    "has_main": true,
+    "has_mcp_server": false,
+    "is_external": false
+  },
+  {
     "name": "news-aggregator-expert",
     "function_name": "news-aggregator",
     "tool_dir": ".agent/skills/news-aggregator-expert/tool",
