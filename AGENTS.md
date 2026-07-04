@@ -213,6 +213,7 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 | `tool-development-expert` | (Meta-skill) | Meta-skill for standardizing AI creation... | Active |
 | `vtt-recitation-expert` | (Meta-skill) | Converts VTT subtitle files into Obsidia... | Active |
 | `yt-dlp-expert` | `.agent/skills/yt-dlp-expert/tool/` | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。 | Active |
+| `english-learning-expert` | (Meta-skill) | 奶爸的英语教室 - 系统性英语学习方法指南（A1-C2全级别） | Active |
 
 
 

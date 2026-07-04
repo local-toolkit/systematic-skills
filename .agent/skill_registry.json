@@ -28,6 +28,20 @@
     "is_external": false
   },
   {
+    "name": "english-learning-expert",
+    "function_name": "english-learning-expert",
+    "tool_dir": null,
+    "type": "meta",
+    "integration": "meta",
+    "description": "奶爸的英语教室 - 系统性英语学习方法指南（A1-C2全级别）。涵盖语音、听力、语法、口语、阅读、写作的完整学习路径。",
+    "status": "active",
+    "path": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/english-learning-expert",
+    "skill_md": "/Users/xujintao/Documents/workspace/systematic-skills/.agent/skills/english-learning-expert/SKILL.md",
+    "has_main": false,
+    "has_mcp_server": false,
+    "is_external": false
+  },
+  {
     "name": "frontend-design-expert",
     "function_name": "frontend-design-expert",
     "tool_dir": null,
