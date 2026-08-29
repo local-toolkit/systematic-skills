@@ -69,7 +69,8 @@ def run_ocr(query: str) -> int:
         )
         return 2
 
-    command = [_python_executable(), str(TOOL_SCRIPT), str(input_path)]
+    # Keep the unified-agent route explicit even if main.py's default changes.
+    command = [_python_executable(), str(TOOL_SCRIPT), str(input_path), "--device", "gpu:0"]
     result = subprocess.run(command, check=False)
     return int(result.returncode)
 

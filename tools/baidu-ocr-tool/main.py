@@ -52,6 +52,7 @@ if not os.environ.get("PADDLE_PDX_LOCAL_FONT_FILE_PATH"):
 IMAGE_EXTENSIONS = {".bmp", ".dib", ".jpeg", ".jpg", ".png", ".webp", ".pbm", ".pgm", ".ppm", ".pnm", ".tif", ".tiff"}
 PDF_EXTENSIONS = {".pdf"}
 DEFAULT_RENDER_SCALE = 2.0
+DEFAULT_DEVICE = "gpu:0"
 MAX_RENDER_PIXELS = 178_956_970
 SCHEMA_VERSION = "3.0"
 
@@ -709,12 +710,52 @@ def _absolute(path: Path) -> str:
     return str(path.resolve())
 
 
+def _resolve_device(args: argparse.Namespace) -> tuple[str, str | None]:
+    """Require the requested accelerator unless CPU fallback is explicit."""
+
+    requested = str(args.device or DEFAULT_DEVICE).strip()
+    args.device = requested
+    if requested.lower() == "cpu" or not requested.lower().startswith("gpu"):
+        return requested, None
+
+    try:
+        import paddle
+
+        has_cuda = bool(paddle.device.is_compiled_with_cuda())
+        is_compiled_with_rocm = getattr(paddle.device, "is_compiled_with_rocm", None)
+        has_rocm = bool(is_compiled_with_rocm()) if callable(is_compiled_with_rocm) else False
+        if not (has_cuda or has_rocm):
+            raise RuntimeError("当前 Paddle 是 CPU 版，未检测到 CUDA/ROCm GPU 后端")
+
+        device_index = 0
+        if ":" in requested:
+            device_index = int(requested.split(":", 1)[1].split(",", 1)[0])
+        device_count = getattr(paddle.device.cuda, "device_count", None)
+        if callable(device_count):
+            count = int(device_count())
+            if count <= device_index:
+                raise RuntimeError(
+                    f"请求 {requested}，但 Paddle 只检测到 {count} 个 GPU"
+                )
+    except Exception as exc:
+        if getattr(args, "allow_cpu_fallback", False):
+            args.device = "cpu"
+            return requested, f"{type(exc).__name__}: {exc}"
+        raise RuntimeError(
+            f"GPU OCR 已启用但不可用（请求 {requested}）：{exc}。"
+            "请安装匹配的 Paddle GPU/ROCm 环境；如确实要用 CPU，请显式添加 --device cpu。"
+        ) from exc
+    return requested, None
+
+
 def _process(args: argparse.Namespace) -> tuple[dict[str, Any], str]:
     input_path = Path(args.input).expanduser().resolve()
     if not input_path.exists() or not input_path.is_file():
         raise FileNotFoundError(f"input not found: {input_path}")
     if input_path.suffix.lower() not in IMAGE_EXTENSIONS | PDF_EXTENSIONS:
         raise ValueError("supported input types: PDF, PNG, JPG, BMP, WEBP, TIFF")
+
+    requested_device, device_fallback_reason = _resolve_device(args)
 
     output_dir = (
         Path(args.output_dir).expanduser().resolve()
@@ -828,6 +869,9 @@ def _process(args: argparse.Namespace) -> tuple[dict[str, Any], str]:
         "source_file": input_path.name,
         "pipeline": pipeline_name,
         "model": model_name,
+        "requested_device": requested_device,
+        "device": args.device,
+        "device_fallback": device_fallback_reason,
         "book_html": html_name,
         "pages": result_pages,
     }
@@ -842,6 +886,9 @@ def _process(args: argparse.Namespace) -> tuple[dict[str, Any], str]:
         "effective_mode": "document" if structure else "text-fallback",
         "pipeline": pipeline_name,
         "model": model_name,
+        "requested_device": requested_device,
+        "device": args.device,
+        "device_fallback": device_fallback_reason,
         "page_count": len(page_paths),
         "asset_count": asset_count,
         "fallback": bool(fallback_reason),
@@ -871,6 +918,9 @@ def _process(args: argparse.Namespace) -> tuple[dict[str, Any], str]:
         "assets": asset_count,
         "pipeline": pipeline_name,
         "model": model_name,
+        "requested_device": requested_device,
+        "device": args.device,
+        "device_fallback": device_fallback_reason,
         "fallback": bool(fallback_reason),
     }
     if args.format in {"text", "both"}:
@@ -937,8 +987,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--device",
-        default="cpu",
-        help="Paddle device, e.g. cpu or gpu:0 (default: cpu)",
+        default=DEFAULT_DEVICE,
+        help="Paddle device, e.g. cpu or gpu:0 (default: gpu:0)",
+    )
+    parser.add_argument(
+        "--allow-cpu-fallback",
+        action="store_true",
+        help="explicitly allow CPU when the requested GPU backend is unavailable",
     )
     parser.add_argument(
         "--annotated",

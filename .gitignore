@@ -65,3 +65,4 @@ cloud-orchestrator-tool/__pycache__/
 **/*.tmp
 large_files*.txt
 *.txt
+!tools/baidu-ocr-tool/requirements*.txt

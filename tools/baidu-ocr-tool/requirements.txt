@@ -1,5 +1,5 @@
-# Tested with Python 3.11 and the CPU Paddle environment.
-paddlepaddle>=3.3.1,<3.4
+# Common dependencies. Install exactly one platform-specific Paddle runtime
+# from requirements-gpu-nvidia.txt or requirements-cpu.txt.
 paddleocr>=3.7.0,<3.8
 paddlex[ocr]>=3.7.2,<3.8
 pypdfium2>=4.30
