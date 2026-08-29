@@ -41,6 +41,9 @@ news-aggregator-tool/reports/
 # Paper Audit
 paper_audit/
 
+# OCR generated packages
+**/*_ocr/
+
 
 cloud-orchestrator-tool/__pycache__/
 

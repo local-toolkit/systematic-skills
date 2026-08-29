@@ -196,17 +196,19 @@ The `.agent/skills/` directory contains expert knowledge bases (skills) that map
 
 ### Skill-to-Tool Mapping
 
-| Skill Name                 | Tool Directory                | Description                                                                         | Status |
-| -------------------------- | ----------------------------- | ----------------------------------------------------------------------------------- | ------ |
-| `imgconv-expert`           | `tools/imgconv-tool/`         |                                                                                     | Active |
-| `literature-search-expert` | (Meta-skill)                  | 资深文献计量学专家与智能检索系统，专门用于学术扫盲、方法论筛选及高置信度证据合成... | Active |
-| `mcp-builder-expert`       | (Meta-skill)                  | Guide for creating high-quality MCP (Mod...                                         | Active |
-| `news-aggregator-expert`   | `tools/news-aggregator-tool/` | Comprehensive news aggregator that fetch...                                         | Active |
-| `paper-audit-expert`       | `tools/paper-audit-tool/`     | rigorous academic auditing workflow for ...                                         | Active |
-| `pdf-downloader-expert`    | `tools/pdf-downloader-tool/`  | PDF 链接下载与归档专家。自动化从 URL 提取并下载 PDF 文件到 pap...                   | Active |
-| `playwright-expert`        | `tools/playwright-tool/`      | Professional web testing and automation ...                                         | Active |
-| `tool-development-expert`  | (Meta-skill)                  | Meta-skill for standardizing AI creation...                                         | Active |
-| `yt-dlp-expert`            | `tools/yt-dlp-tool/`          | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。                | Active |
+| Skill Name | Tool Directory | Description | Status |
+|-----------|---------------|-------------|--------|
+| `baidu-ocr-expert` | `tools/baidu-ocr-tool/` | 将用户指定的 PDF 或图片一次性转换为书籍式 OCR 文档包，包含视觉 HTM... | Active |
+| `imgconv-expert` | `tools/imgconv-tool/` |  | Active |
+| `literature-search-expert` | (Meta-skill) | 资深文献计量学专家与智能检索系统，专门用于学术扫盲、方法论筛选及高置信度证据合成... | Active |
+| `mcp-builder-expert` | (Meta-skill) | Guide for creating high-quality MCP (Mod... | Active |
+| `news-aggregator-expert` | `tools/news-aggregator-tool/` | Comprehensive news aggregator that fetch... | Active |
+| `paper-audit-expert` | `tools/paper-audit-tool/` |  | Active |
+| `pdf-downloader-expert` | `tools/pdf-downloader-tool/` |  | Active |
+| `playwright-expert` | `tools/playwright-tool/` | Professional web testing and automation ... | Active |
+| `tool-development-expert` | (Meta-skill) | Meta-skill for standardizing AI creation... | Active |
+| `yt-dlp-expert` | `tools/yt-dlp-tool/` | 工业级媒体提取协议。强制执行依赖校验与流选择逻辑，杜绝无效参数组合。 | Active |
+
 
 ### Using Skills
 

@@ -1,5 +1,19 @@
 [
   {
+    "name": "baidu-ocr-expert",
+    "function_name": "baidu-ocr",
+    "tool_dir": "tools/baidu-ocr-tool",
+    "type": "execution",
+    "integration": "subprocess",
+    "description": "将用户指定的 PDF 或图片一次性转换为书籍式 OCR 文档包，包含视觉 HTML、结构化 Markdown、逐页图片、抽取资源和 JSON 版面数据。",
+    "status": "active",
+    "path": ".agent/skills/baidu-ocr-expert",
+    "skill_md": ".agent/skills/baidu-ocr-expert/SKILL.md",
+    "has_main": true,
+    "has_mcp_server": false,
+    "is_external": false
+  },
+  {
     "name": "imgconv-expert",
     "function_name": "imgconv",
     "tool_dir": "tools/imgconv-tool",
